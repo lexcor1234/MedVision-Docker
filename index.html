@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!-- CSP mejorado (mejora 11) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://html2canvas.hertzen.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob:; connect-src 'self' https://*.ngrok-free.dev https://*.ngrok.io https://*.trycloudflare.com http://localhost:* http://127.0.0.1:* http://10.8.0.7:* http://10.8.0.8:* http://10.8.0.6:*;">
+
+    <title>MedVision - Análisis de Imágenes Médicas con IA</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="MedVision: Herramienta de análisis de imágenes médicas con Inteligencia Artificial. Utiliza MedGemma 1.5 y MedSigLIP para clasificar radiografías, tomografías, resonancias y más.">
+    <meta name="keywords" content="análisis médico, IA, inteligencia artificial, radiografía, tomografía, MedGemma, diagnóstico, imágenes médicas">
+    <meta name="author" content="MedVision">
+    <meta name="robots" content="index, follow">
+
+    <!-- Canonical URL (mejora 4) -->
+    <link rel="canonical" href="https://medvision.app">
+
+    <!-- Open Graph / Facebook (mejora 4 y 5) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://medvision.app">
+    <meta property="og:title" content="MedVision - Análisis de Imágenes Médicas con IA">
+    <meta property="og:description" content="Analiza imágenes médicas con Inteligencia Artificial. Clasificación automática y generación de informes con MedGemma 1.5.">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:image" content="https://medvision.app/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter (mejora 5) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MedVision - Análisis de Imágenes Médicas con IA">
+    <meta name="twitter:description" content="Analiza imágenes médicas con Inteligencia Artificial. Clasificación automática y generación de informes.">
+    <meta name="twitter:image" content="https://medvision.app/og-image.png">
+
+    <!-- Favicon (SVG inline) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#667eea">
+
+    <!-- Preconnect para mejorar rendimiento -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <!-- Preload fuente crítica (mejora 2) -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style">
+
+    <!-- Fuentes con display=swap para evitar bloqueo de renderizado -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome con carga diferida -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+
+    <!-- CSS externo (mejora 1) -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Web App Manifest para PWA (mejora 3) -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <a href="#analysisForm" class="skip-link">Saltar al formulario de análisis</a>
+    <main class="container">
+        <!-- Header -->
+        <header class="header" role="banner">
+            <h1><i class="fas fa-heartbeat" aria-hidden="true"></i> MedVision</h1>
+            <p>Análisis de Imágenes Médicas con Inteligencia Artificial</p>
+            <span class="badge"><i class="fas fa-microchip" aria-hidden="true"></i> MedGemma 1.5 + MedSigLIP</span>
+        </header>
+
+        <!-- API Configuration -->
+        <nav class="api-config" aria-label="Configuración de conexión">
+            <label for="apiUrl"><i class="fas fa-server" aria-hidden="true"></i> URL de la API:</label>
+            <input type="url" id="apiUrl" placeholder="http://10.8.0.7:8001" value="http://10.8.0.7:8001" autocomplete="url">
+            <button type="button" id="connectBtn" aria-label="Conectar con la API"><i class="fas fa-plug" aria-hidden="true"></i> Conectar</button>
+            <span class="status disconnected" id="connectionStatus" role="status" aria-live="polite">
+                <i class="fas fa-circle" aria-hidden="true"></i> Desconectado
+            </span>
+        </nav>
+
+        <!-- Main Card -->
+        <section class="main-card" aria-labelledby="analysis-heading">
+            <header class="card-header">
+                <i class="fas fa-x-ray" aria-hidden="true"></i>
+                <h2 id="analysis-heading">Análisis de Imagen Médica</h2>
+            </header>
+            <div class="card-body">
+                <form id="analysisForm">
+                    <div class="grid">
+                        <!-- Upload -->
+                        <div>
+                            <div class="upload-section" id="dropZone" role="button" tabindex="0" aria-label="Zona para cargar imagen. Arrastra o presiona Enter para seleccionar">
+                                <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                                <h3>Arrastra tu imagen aquí</h3>
+                                <p>o haz clic para seleccionar</p>
+                                <p style="margin-top: 10px; font-size: 0.8rem;">PNG, JPG, JPEG (máx. 10MB)</p>
+                                <input type="file" id="fileInput" accept="image/*" aria-label="Seleccionar archivo de imagen médica">
+                            </div>
+
+                            <div class="preview-container" id="previewContainer">
+                                <img id="previewImage" class="preview-image" src="" alt="Vista previa de la imagen médica cargada" role="img" loading="lazy" decoding="async" title="Clic para ampliar">
+                                <div class="file-info" id="fileInfo"></div>
+                                <button type="button" class="change-image-btn" id="changeImageBtn" aria-label="Cambiar imagen seleccionada">
+                                    <i class="fas fa-exchange-alt" aria-hidden="true"></i> Cambiar imagen
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Options -->
+                        <div>
+                            <div class="form-group">
+                                <label for="modalidad"><i class="fas fa-stethoscope" aria-hidden="true"></i> Modalidad de Imagen</label>
+                                <select id="modalidad" aria-describedby="modalidad-help">
+                                    <option value="universal">🔍 Universal (detección automática)</option>
+                                    <optgroup label="Radiografías">
+                                        <option value="chest_xray">🫁 Radiografía de Tórax</option>
+                                        <option value="xray_bone">🦴 Radiografía Ósea</option>
+                                    </optgroup>
+                                    <optgroup label="Tomografía (CT)">
+                                        <option value="ct_head">🧠 TC de Cabeza</option>
+                                        <option value="ct_chest">🫁 TC de Tórax</option>
+                                        <option value="ct_abdomen">🩻 TC Abdominal</option>
+                                    </optgroup>
+                                    <optgroup label="Resonancia (MRI)">
+                                        <option value="mri_brain">🧠 RM Cerebral</option>
+                                    </optgroup>
+                                    <optgroup label="Otros">
+                                        <option value="mammography">🎀 Mamografía</option>
+                                        <option value="ultrasound">📡 Ecografía</option>
+                                        <option value="dermoscopy">🔬 Dermatoscopia</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contexto"><i class="fas fa-notes-medical" aria-hidden="true"></i> Contexto Clínico (opcional)</label>
+                                <textarea id="contexto" aria-describedby="contexto-help" placeholder="Ej: Paciente masculino de 55 años, fumador, presenta tos persistente y dolor torácico desde hace 2 semanas..."></textarea>
+                                <span id="contexto-help" class="visually-hidden">Proporcione información clínica relevante del paciente para mejorar el análisis</span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" id="submitBtn" disabled aria-describedby="submit-status">
+                                <i class="fas fa-search" aria-hidden="true"></i>
+                                Analizar Imagen
+                            </button>
+                            <span id="submit-status" class="visually-hidden">Botón deshabilitado hasta conectar con la API</span>
+
+                            <!-- Disclaimer con role corregido (mejora 14) -->
+                            <aside class="disclaimer" role="note" aria-label="Aviso importante">
+                                <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+                                <p><strong>Aviso:</strong> Esta herramienta es solo de apoyo diagnóstico. Los resultados deben ser interpretados por un profesional médico calificado. No reemplaza el juicio clínico.</p>
+                            </aside>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Results -->
+                <section class="results-section" id="resultsSection" aria-labelledby="results-heading">
+                    <h3 id="results-heading" class="visually-hidden">Resultados del análisis</h3>
+                    <hr style="margin: 30px 0; border: none; border-top: 2px solid var(--border);" aria-hidden="true">
+
+                    <article class="result-card" aria-labelledby="clasificacion-heading">
+                        <header class="result-header clasificacion">
+                            <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                            <h4 id="clasificacion-heading">Clasificación (MedSigLIP)</h4>
+                        </header>
+                        <div class="result-body" id="clasificacionResults" role="list" aria-label="Lista de clasificaciones"></div>
+                    </article>
+
+                    <article class="result-card" aria-labelledby="informe-heading">
+                        <header class="result-header informe">
+                            <i class="fas fa-file-medical" aria-hidden="true"></i>
+                            <h4 id="informe-heading">Informe Médico (MedGemma 1.5)</h4>
+                        </header>
+                        <div class="result-body">
+                            <div class="translate-section">
+                                <label for="translateLang"><i class="fas fa-language" aria-hidden="true"></i> Traducir a:</label>
+                                <select id="translateLang">
+                                    <option value="">-- Idioma original --</option>
+                                    <option value="es">🇪🇸 Español</option>
+                                    <option value="en">🇺🇸 English</option>
+                                    <option value="pt">🇧🇷 Português</option>
+                                    <option value="fr">🇫🇷 Français</option>
+                                    <option value="de">🇩🇪 Deutsch</option>
+                                    <option value="it">🇮🇹 Italiano</option>
+                                </select>
+                                <button type="button" class="btn-translate" id="translateBtn" disabled>
+                                    <i class="fas fa-sync-alt" aria-hidden="true"></i> Traducir
+                                </button>
+                                <span class="translate-status" id="translateStatus"></span>
+                            </div>
+                            <div class="informe-content" id="informeResults"></div>
+                        </div>
+                    </article>
+
+                    <!-- Botones de exportación (mejora 7) -->
+                    <div class="export-buttons">
+                        <button type="button" class="btn-export btn-export-pdf" id="exportPdfBtn">
+                            <i class="fas fa-file-pdf" aria-hidden="true"></i> Exportar PDF
+                        </button>
+                        <button type="button" class="btn-export btn-export-txt" id="exportTxtBtn">
+                            <i class="fas fa-file-alt" aria-hidden="true"></i> Exportar TXT
+                        </button>
+                        <button type="button" class="btn-export btn-export-img" id="exportImgBtn">
+                            <i class="fas fa-image" aria-hidden="true"></i> Guardar Imagen
+                        </button>
+                    </div>
+
+                    <button type="button" class="btn btn-new" id="newAnalysisBtn" aria-label="Iniciar un nuevo análisis de imagen">
+                        <i class="fas fa-redo" aria-hidden="true"></i>
+                        Nuevo Análisis
+                    </button>
+                </section>
+            </div>
+        </section>
+
+        <!-- Historial (mejora 8) -->
+        <section class="history-section" aria-labelledby="history-heading">
+            <button type="button" class="history-toggle" id="historyToggle">
+                <i class="fas fa-history" aria-hidden="true"></i>
+                <span>Ver Historial de Análisis</span>
+            </button>
+            <div class="history-panel" id="historyPanel" aria-labelledby="history-heading">
+                <h3 id="history-heading" class="visually-hidden">Historial de análisis</h3>
+                <div id="historyList"></div>
+            </div>
+        </section>
+
+        <footer class="footer" role="contentinfo">
+            <p><i class="fas fa-robot" aria-hidden="true"></i> Powered by Google MedGemma 1.5 & MedSigLIP</p>
+            <p><small>Esta es una herramienta de investigación. No usar para diagnóstico clínico real.</small></p>
+        </footer>
+    </main>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+    <!-- Loading con progreso real (mejora 6) -->
+    <div class="loading-overlay" id="loadingOverlay" role="dialog" aria-modal="true" aria-labelledby="loading-title" aria-describedby="loadingText">
+        <div class="loading-content">
+            <div class="spinner" role="status" aria-hidden="true"></div>
+            <h3 id="loading-title">Analizando imagen...</h3>
+            <p id="loadingText" aria-live="polite">Iniciando análisis...</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <p class="progress-text" id="progressText">0%</p>
+        </div>
+    </div>
+
+    <!-- Modal de zoom (mejora 9) -->
+    <div class="zoom-modal" id="zoomModal" role="dialog" aria-modal="true" aria-label="Vista ampliada de imagen">
+        <button class="zoom-close" id="zoomClose" aria-label="Cerrar vista ampliada">&times;</button>
+        <img id="zoomImage" src="" alt="Imagen médica ampliada">
+        <div class="zoom-controls">
+            <button id="zoomIn" aria-label="Aumentar zoom"><i class="fas fa-plus"></i></button>
+            <button id="zoomOut" aria-label="Disminuir zoom"><i class="fas fa-minus"></i></button>
+            <button id="zoomReset" aria-label="Restablecer zoom"><i class="fas fa-expand"></i></button>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación (mejora 10) -->
+    <div class="confirm-modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+        <div class="confirm-content">
+            <h3 id="confirm-title">¿Descartar análisis actual?</h3>
+            <p>Perderás los resultados del análisis actual. ¿Estás seguro?</p>
+            <div class="confirm-buttons">
+                <button class="confirm-yes" id="confirmYes">Sí, descartar</button>
+                <button class="confirm-no" id="confirmNo">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- html2canvas para exportar imagen -->
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" defer></script>
+
+    <script>
+        // ==========================================
+        // MÓDULO: Estado de la aplicación (mejora 17)
+        // ==========================================
+        const App = {
+            state: {
+                isConnected: false,
+                hasImage: false,
+                hasResults: false,
+                currentFile: null,
+                currentResults: null,
+                zoomLevel: 1,
+                lastRequestTime: 0
+            },
+
+            // Rate limiting config (mejora 12)
+            rateLimit: {
+                minInterval: 5000, // 5 segundos entre requests
+                maxRequests: 10,
+                timeWindow: 60000, // 1 minuto
+                requests: []
+            },
+
+            // Historial config (mejora 8)
+            history: {
+                maxItems: 20,
+                storageKey: 'medvision_history'
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Elementos DOM
+        // ==========================================
+        const DOM = {
+            apiUrlInput: document.getElementById('apiUrl'),
+            connectionStatus: document.getElementById('connectionStatus'),
+            connectBtn: document.getElementById('connectBtn'),
+            dropZone: document.getElementById('dropZone'),
+            fileInput: document.getElementById('fileInput'),
+            previewContainer: document.getElementById('previewContainer'),
+            previewImage: document.getElementById('previewImage'),
+            fileInfo: document.getElementById('fileInfo'),
+            form: document.getElementById('analysisForm'),
+            submitBtn: document.getElementById('submitBtn'),
+            loadingOverlay: document.getElementById('loadingOverlay'),
+            loadingText: document.getElementById('loadingText'),
+            progressBar: document.getElementById('progressBar'),
+            progressText: document.getElementById('progressText'),
+            resultsSection: document.getElementById('resultsSection'),
+            clasificacionResults: document.getElementById('clasificacionResults'),
+            informeResults: document.getElementById('informeResults'),
+            newAnalysisBtn: document.getElementById('newAnalysisBtn'),
+            toastContainer: document.getElementById('toastContainer'),
+            zoomModal: document.getElementById('zoomModal'),
+            zoomImage: document.getElementById('zoomImage'),
+            confirmModal: document.getElementById('confirmModal'),
+            historyToggle: document.getElementById('historyToggle'),
+            historyPanel: document.getElementById('historyPanel'),
+            historyList: document.getElementById('historyList')
+        };
+
+        // ==========================================
+        // MÓDULO: Utilidades
+        // ==========================================
+        const Utils = {
+            // Sanitizar HTML para prevenir XSS
+            sanitizeHTML(str) {
+                const temp = document.createElement('div');
+                temp.textContent = str;
+                return temp.innerHTML;
+            },
+
+            // Formatear markdown seguro
+            formatMarkdownSafe(text) {
+                return this.sanitizeHTML(text)
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n\n/g, '</p><p>')
+                    .replace(/\n/g, '<br>')
+                    .replace(/\* /g, '&bull; ');
+            },
+
+            // Validar URL (mejora seguridad)
+            isValidApiUrl(url) {
+                try {
+                    const parsed = new URL(url);
+                    // Permitir HTTP para localhost, 127.0.0.1 y IPs privadas (10.x.x.x, 192.168.x.x, 172.16-31.x.x)
+                    const isPrivateIP = /^(10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)$/.test(parsed.hostname);
+                    if (parsed.protocol !== 'https:' &&
+                        !(parsed.protocol === 'http:' && (parsed.hostname === 'localhost' || parsed.hostname === '127.0.0.1' || isPrivateIP))) {
+                        return { valid: false, error: 'La URL debe usar HTTPS' };
+                    }
+                    const blockedPatterns = ['javascript:', 'data:', 'file:', 'ftp:'];
+                    if (blockedPatterns.some(p => url.toLowerCase().includes(p))) {
+                        return { valid: false, error: 'URL no permitida' };
+                    }
+                    return { valid: true };
+                } catch (e) {
+                    return { valid: false, error: 'URL inválida' };
+                }
+            },
+            // En la función fetchWithTimeout, aumenta el tiempo
+            async fetchWithTimeout(url, options = {}, timeout = 180000) {  // 180 segundos
+                const controller = new AbortController();
+                const id = setTimeout(() => controller.abort(), timeout);
+                try {
+                    const response = await fetch(url, { ...options, signal: controller.signal });
+                    clearTimeout(id);
+                    return response;
+                } catch (error) {
+                    clearTimeout(id);
+                    if (error.name === 'AbortError') {
+                        throw new Error('La solicitud tardó demasiado. Verifica tu conexión.');
+                    }
+                    throw error;
+                }
+            },
+
+            // Formatear tamaño de archivo
+            formatFileSize(bytes) {
+                return bytes < 1024 * 1024
+                    ? (bytes / 1024).toFixed(1) + ' KB'
+                    : (bytes / 1024 / 1024).toFixed(1) + ' MB';
+            },
+
+            // Ofuscar/deofuscar URL (mejora 13)
+            obfuscateUrl(url) {
+                return btoa(encodeURIComponent(url));
+            },
+
+            deobfuscateUrl(encoded) {
+                try {
+                    return decodeURIComponent(atob(encoded));
+                } catch {
+                    return '';
+                }
+            },
+
+            // Formatear fecha
+            formatDate(date) {
+                return new Intl.DateTimeFormat('es-ES', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }).format(date);
+            },
+
+            // Obtener nombre de idioma
+            getLanguageName(code) {
+                const languages = {
+                    'es': 'Español',
+                    'en': 'English',
+                    'pt': 'Português',
+                    'fr': 'Français',
+                    'de': 'Deutsch',
+                    'it': 'Italiano'
+                };
+                return languages[code] || code;
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Rate Limiting (mejora 12)
+        // ==========================================
+        const RateLimiter = {
+            canMakeRequest() {
+                const now = Date.now();
+                const { minInterval, maxRequests, timeWindow, requests } = App.rateLimit;
+
+                // Limpiar requests antiguos
+                App.rateLimit.requests = requests.filter(t => now - t < timeWindow);
+
+                // Verificar intervalo mínimo
+                if (now - App.state.lastRequestTime < minInterval) {
+                    return { allowed: false, message: 'Espera unos segundos antes de hacer otra solicitud' };
+                }
+
+                // Verificar máximo de requests
+                if (App.rateLimit.requests.length >= maxRequests) {
+                    return { allowed: false, message: 'Demasiadas solicitudes. Espera un momento.' };
+                }
+
+                return { allowed: true };
+            },
+
+            recordRequest() {
+                App.state.lastRequestTime = Date.now();
+                App.rateLimit.requests.push(Date.now());
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Notificaciones Toast
+        // ==========================================
+        const Toast = {
+            show(message, type = 'info', duration = 4000) {
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.setAttribute('role', 'alert');
+
+                const icons = {
+                    success: 'fa-check-circle',
+                    error: 'fa-times-circle',
+                    warning: 'fa-exclamation-triangle',
+                    info: 'fa-info-circle'
+                };
+
+                toast.innerHTML = `
+                    <i class="fas ${icons[type]}" aria-hidden="true"></i>
+                    <span>${Utils.sanitizeHTML(message)}</span>
+                    <button class="toast-close" aria-label="Cerrar notificación">&times;</button>
+                `;
+
+                DOM.toastContainer.appendChild(toast);
+                toast.querySelector('.toast-close').addEventListener('click', () => toast.remove());
+                setTimeout(() => toast.parentNode && toast.remove(), duration);
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Conexión API
+        // ==========================================
+        const Connection = {
+            checkInterval: null,
+
+            async test() {
+                const url = DOM.apiUrlInput.value.trim().replace(/\/$/, '');
+                if (!url) {
+                    Toast.show('Por favor ingresa la URL de la API', 'warning');
+                    return;
+                }
+
+                const validation = Utils.isValidApiUrl(url);
+                if (!validation.valid) {
+                    Toast.show(validation.error, 'error');
+                    DOM.connectionStatus.className = 'status disconnected';
+                    DOM.connectionStatus.innerHTML = '<i class="fas fa-times-circle" aria-hidden="true"></i> URL inválida';
+                    return;
+                }
+
+                DOM.connectionStatus.className = 'status checking';
+                DOM.connectionStatus.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Verificando...';
+
+                try {
+                    const response = await Utils.fetchWithTimeout(url + '/health', {
+                        method: 'GET',
+                        headers: { 'ngrok-skip-browser-warning': 'true' }
+                    }, 10000);
+
+                    if (response.ok) {
+                        App.state.isConnected = true;
+                        DOM.connectionStatus.className = 'status connected';
+                        DOM.connectionStatus.innerHTML = '<i class="fas fa-check-circle" aria-hidden="true"></i> Conectado';
+                        // Guardar URL ofuscada (mejora 13)
+                        localStorage.setItem('medvision_api_url', Utils.obfuscateUrl(url));
+                        UI.updateSubmitButton();
+                        this.startMonitor();
+                        Toast.show('Conectado a la API correctamente', 'success');
+                    } else {
+                        throw new Error('Error de conexión');
+                    }
+                } catch (error) {
+                    App.state.isConnected = false;
+                    DOM.connectionStatus.className = 'status disconnected';
+                    DOM.connectionStatus.innerHTML = '<i class="fas fa-times-circle" aria-hidden="true"></i> Error de conexión';
+                    UI.updateSubmitButton();
+                    Toast.show('No se pudo conectar con la API', 'error');
+                }
+            },
+
+            startMonitor() {
+                if (this.checkInterval) return;
+                this.checkInterval = setInterval(async () => {
+                    if (App.state.isConnected) {
+                        try {
+                            const url = DOM.apiUrlInput.value.trim().replace(/\/$/, '');
+                            const response = await Utils.fetchWithTimeout(url + '/health', {
+                                method: 'GET',
+                                headers: { 'ngrok-skip-browser-warning': 'true' }
+                            }, 5000);
+                            if (!response.ok) throw new Error();
+                        } catch {
+                            App.state.isConnected = false;
+                            DOM.connectionStatus.className = 'status disconnected';
+                            DOM.connectionStatus.innerHTML = '<i class="fas fa-times-circle" aria-hidden="true"></i> Desconectado';
+                            UI.updateSubmitButton();
+                            Toast.show('Conexión perdida con la API', 'warning');
+                        }
+                    }
+                }, 60000);
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Interfaz de Usuario
+        // ==========================================
+        const UI = {
+            updateSubmitButton() {
+                DOM.submitBtn.disabled = !App.state.isConnected || !App.state.hasImage;
+                const statusSpan = document.getElementById('submit-status');
+                if (statusSpan) {
+                    if (!App.state.isConnected) {
+                        statusSpan.textContent = 'Botón deshabilitado: conecte con la API primero';
+                    } else if (!App.state.hasImage) {
+                        statusSpan.textContent = 'Botón deshabilitado: seleccione una imagen';
+                    } else {
+                        statusSpan.textContent = 'Botón listo para analizar';
+                    }
+                }
+            },
+
+            updateProgress(percent, message) {
+                DOM.progressBar.style.width = percent + '%';
+                DOM.progressText.textContent = percent + '%';
+                if (message) DOM.loadingText.textContent = message;
+            },
+
+            showLoading() {
+                DOM.loadingOverlay.classList.add('show');
+                this.updateProgress(0, 'Iniciando análisis...');
+            },
+
+            hideLoading() {
+                DOM.loadingOverlay.classList.remove('show');
+            },
+
+            showResults() {
+                DOM.resultsSection.classList.add('show');
+                DOM.resultsSection.scrollIntoView({ behavior: 'smooth' });
+                App.state.hasResults = true;
+            },
+
+            hideResults() {
+                DOM.resultsSection.classList.remove('show');
+                App.state.hasResults = false;
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Manejo de archivos
+        // ==========================================
+        const FileHandler = {
+            MAX_SIZE: 10 * 1024 * 1024,
+            ALLOWED_TYPES: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+
+            validate(file) {
+                if (!file.type.startsWith('image/') || !this.ALLOWED_TYPES.includes(file.type)) {
+                    return { valid: false, error: 'Por favor selecciona una imagen válida (PNG, JPG, JPEG, WebP)' };
+                }
+                if (file.size > this.MAX_SIZE) {
+                    return { valid: false, error: 'El archivo es demasiado grande. Máximo permitido: 10MB' };
+                }
+                return { valid: true };
+            },
+
+            handle(file) {
+                const validation = this.validate(file);
+                if (!validation.valid) {
+                    Toast.show(validation.error, 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = e => {
+                    DOM.previewImage.src = e.target.result;
+                    DOM.previewContainer.classList.add('show');
+                    DOM.dropZone.classList.add('hidden');
+                    DOM.fileInfo.innerHTML = '<i class="fas fa-file-image" aria-hidden="true"></i> ' +
+                        Utils.sanitizeHTML(file.name) + ' (' + Utils.formatFileSize(file.size) + ')';
+
+                    App.state.hasImage = true;
+                    App.state.currentFile = file;
+                    UI.updateSubmitButton();
+                    Toast.show('Imagen cargada correctamente', 'success');
+                };
+                reader.readAsDataURL(file);
+            },
+
+            reset() {
+                DOM.form.reset();
+                DOM.previewContainer.classList.remove('show');
+                DOM.dropZone.classList.remove('hidden');
+                App.state.hasImage = false;
+                App.state.currentFile = null;
+                UI.updateSubmitButton();
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Zoom de imagen (mejora 9)
+        // ==========================================
+        const Zoom = {
+            init() {
+                DOM.previewImage.addEventListener('click', () => this.open(DOM.previewImage.src));
+                document.getElementById('zoomClose').addEventListener('click', () => this.close());
+                document.getElementById('zoomIn').addEventListener('click', () => this.zoomIn());
+                document.getElementById('zoomOut').addEventListener('click', () => this.zoomOut());
+                document.getElementById('zoomReset').addEventListener('click', () => this.reset());
+                DOM.zoomModal.addEventListener('click', (e) => {
+                    if (e.target === DOM.zoomModal) this.close();
+                });
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && DOM.zoomModal.classList.contains('show')) {
+                        this.close();
+                    }
+                });
+            },
+
+            open(src) {
+                DOM.zoomImage.src = src;
+                DOM.zoomModal.classList.add('show');
+                App.state.zoomLevel = 1;
+                this.applyZoom();
+            },
+
+            close() {
+                DOM.zoomModal.classList.remove('show');
+                App.state.zoomLevel = 1;
+            },
+
+            zoomIn() {
+                App.state.zoomLevel = Math.min(App.state.zoomLevel + 0.25, 3);
+                this.applyZoom();
+            },
+
+            zoomOut() {
+                App.state.zoomLevel = Math.max(App.state.zoomLevel - 0.25, 0.5);
+                this.applyZoom();
+            },
+
+            reset() {
+                App.state.zoomLevel = 1;
+                this.applyZoom();
+            },
+
+            applyZoom() {
+                DOM.zoomImage.style.transform = `scale(${App.state.zoomLevel})`;
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Historial (mejora 8)
+        // ==========================================
+        const History = {
+            load() {
+                try {
+                    const data = localStorage.getItem(App.history.storageKey);
+                    return data ? JSON.parse(data) : [];
+                } catch {
+                    return [];
+                }
+            },
+
+            save(items) {
+                try {
+                    localStorage.setItem(App.history.storageKey, JSON.stringify(items.slice(0, App.history.maxItems)));
+                } catch (e) {
+                    console.warn('No se pudo guardar el historial:', e);
+                }
+            },
+
+            add(data) {
+                const items = this.load();
+                const entry = {
+                    id: Date.now(),
+                    date: new Date().toISOString(),
+                    modalidad: document.getElementById('modalidad').value,
+                    thumbnail: DOM.previewImage.src.substring(0, 500), // Limitar tamaño
+                    clasificacion: data.clasificacion_siglip,
+                    informe: data.informe_medgemma
+                };
+                items.unshift(entry);
+                this.save(items);
+                this.render();
+            },
+
+            remove(id) {
+                const items = this.load().filter(item => item.id !== id);
+                this.save(items);
+                this.render();
+                Toast.show('Entrada eliminada del historial', 'info');
+            },
+
+            clear() {
+                localStorage.removeItem(App.history.storageKey);
+                this.render();
+                Toast.show('Historial borrado', 'info');
+            },
+
+            render() {
+                const items = this.load();
+                if (items.length === 0) {
+                    DOM.historyList.innerHTML = '<div class="history-empty"><i class="fas fa-inbox"></i><p>No hay análisis en el historial</p></div>';
+                    return;
+                }
+
+                let html = items.map(item => `
+                    <div class="history-item" data-id="${item.id}">
+                        <img class="history-thumb" src="${Utils.sanitizeHTML(item.thumbnail)}" alt="Miniatura">
+                        <div class="history-info">
+                            <h5>${Utils.sanitizeHTML(item.modalidad.replace(/_/g, ' '))}</h5>
+                            <p>${Utils.formatDate(new Date(item.date))}</p>
+                        </div>
+                        <button class="history-delete" data-id="${item.id}" aria-label="Eliminar entrada">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `).join('');
+
+                html += '<button class="history-clear" id="historyClear"><i class="fas fa-trash-alt"></i> Borrar todo el historial</button>';
+                DOM.historyList.innerHTML = html;
+
+                // Event listeners
+                DOM.historyList.querySelectorAll('.history-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        if (!e.target.closest('.history-delete')) {
+                            const id = parseInt(item.dataset.id);
+                            this.showEntry(id);
+                        }
+                    });
+                });
+
+                DOM.historyList.querySelectorAll('.history-delete').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.remove(parseInt(btn.dataset.id));
+                    });
+                });
+
+                document.getElementById('historyClear')?.addEventListener('click', () => this.clear());
+            },
+
+            showEntry(id) {
+                const items = this.load();
+                const entry = items.find(item => item.id === id);
+                if (entry) {
+                    App.state.currentResults = { clasificacion_siglip: entry.clasificacion, informe_medgemma: entry.informe };
+                    Analysis.displayResults(App.state.currentResults);
+                    Toast.show('Mostrando análisis del historial', 'info');
+                }
+            },
+
+            init() {
+                DOM.historyToggle.addEventListener('click', () => {
+                    DOM.historyPanel.classList.toggle('show');
+                    const isOpen = DOM.historyPanel.classList.contains('show');
+                    DOM.historyToggle.querySelector('span').textContent = isOpen ? 'Ocultar Historial' : 'Ver Historial de Análisis';
+                });
+                this.render();
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Análisis
+        // ==========================================
+        const Analysis = {
+            async submit() {
+                // Rate limiting check (mejora 12)
+                const rateCheck = RateLimiter.canMakeRequest();
+                if (!rateCheck.allowed) {
+                    Toast.show(rateCheck.message, 'warning');
+                    return;
+                }
+
+                if (!App.state.isConnected) {
+                    Toast.show('Primero conecta con la API', 'warning');
+                    return;
+                }
+
+                if (!DOM.fileInput.files.length) {
+                    Toast.show('Selecciona una imagen primero', 'warning');
+                    return;
+                }
+
+                UI.showLoading();
+                DOM.submitBtn.disabled = true;
+                UI.hideResults();
+                RateLimiter.recordRequest();
+
+                // Progreso simulado con etapas (mejora 6)
+                const stages = [
+                    { percent: 10, message: 'Enviando imagen al servidor...' },
+                    { percent: 30, message: 'Procesando con MedSigLIP...' },
+                    { percent: 50, message: 'Clasificando hallazgos...' },
+                    { percent: 70, message: 'Generando informe con MedGemma 1.5...' },
+                    { percent: 90, message: 'Finalizando análisis...' }
+                ];
+
+                let stageIndex = 0;
+                const progressInterval = setInterval(() => {
+                    if (stageIndex < stages.length) {
+                        UI.updateProgress(stages[stageIndex].percent, stages[stageIndex].message);
+                        stageIndex++;
+                    }
+                }, 3000);
+
+                try {
+                    const url = DOM.apiUrlInput.value.trim().replace(/\/$/, '');
+                    const formData = new FormData();
+                    formData.append('imagen', DOM.fileInput.files[0]);
+                    formData.append('modalidad', document.getElementById('modalidad').value);
+                    formData.append('contexto_clinico', document.getElementById('contexto').value);
+
+                    const response = await Utils.fetchWithTimeout(url + '/completo', {
+                        method: 'POST',
+                        body: formData,
+                        headers: { 'ngrok-skip-browser-warning': 'true' }
+                    }, 120000);
+
+                    if (!response.ok) {
+                        let errorMsg = 'Error en el servidor';
+                        try {
+                            const error = await response.json();
+                            errorMsg = error.detail || errorMsg;
+                        } catch {}
+                        throw new Error(errorMsg);
+                    }
+
+                    const data = await response.json();
+                    UI.updateProgress(100, '¡Análisis completado!');
+                    App.state.currentResults = data;
+
+                    setTimeout(() => {
+                        this.displayResults(data);
+                        History.add(data);
+                        Toast.show('Análisis completado exitosamente', 'success');
+                    }, 500);
+
+                } catch (error) {
+                    Toast.show('Error: ' + error.message, 'error', 6000);
+                } finally {
+                    clearInterval(progressInterval);
+                    setTimeout(() => UI.hideLoading(), 600);
+                    DOM.submitBtn.disabled = false;
+                }
+            },
+
+            displayResults(data) {
+                // Classification
+                let html = '';
+                if (Array.isArray(data.clasificacion_siglip)) {
+                    data.clasificacion_siglip.forEach(item => {
+                        const etiqueta = Utils.sanitizeHTML(String(item.etiqueta || '').replace(/_/g, ' '));
+                        const probabilidad = Utils.sanitizeHTML(String(item.probabilidad || '0'));
+                        const pct = Math.min(100, Math.max(0, parseFloat(item.probabilidad) || 0));
+                        const cls = pct >= 50 ? 'high' : pct >= 20 ? 'medium' : 'low';
+                        html += `
+                            <div class="clasificacion-item" role="listitem">
+                                <span class="clasificacion-label">${etiqueta}</span>
+                                <div class="clasificacion-bar-container" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="clasificacion-bar ${cls}" style="width: ${pct}%"></div>
+                                </div>
+                                <span class="clasificacion-percent">${probabilidad}</span>
+                            </div>
+                        `;
+                    });
+                }
+                DOM.clasificacionResults.innerHTML = html || '<p>No hay datos de clasificación disponibles.</p>';
+
+                // Report
+                const informeTexto = data.informe_medgemma || 'No hay informe disponible.';
+                DOM.informeResults.innerHTML = '<p>' + Utils.formatMarkdownSafe(informeTexto) + '</p>';
+
+                // Reset traducción para nuevo informe
+                if (typeof Translate !== 'undefined') {
+                    Translate.reset();
+                    Translate.originalInforme = data.informe_medgemma;
+                }
+
+                UI.showResults();
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Exportación (mejora 7)
+        // ==========================================
+        const Export = {
+            generateText() {
+                if (!App.state.currentResults) return '';
+
+                let text = '═══════════════════════════════════════\n';
+                text += '       MEDVISION - INFORME DE ANÁLISIS\n';
+                text += '═══════════════════════════════════════\n\n';
+                text += 'Fecha: ' + Utils.formatDate(new Date()) + '\n';
+                text += 'Modalidad: ' + document.getElementById('modalidad').value.replace(/_/g, ' ') + '\n\n';
+
+                text += '───────────────────────────────────────\n';
+                text += '  CLASIFICACIÓN (MedSigLIP)\n';
+                text += '───────────────────────────────────────\n\n';
+
+                if (Array.isArray(App.state.currentResults.clasificacion_siglip)) {
+                    App.state.currentResults.clasificacion_siglip.forEach(item => {
+                        text += `• ${item.etiqueta.replace(/_/g, ' ')}: ${item.probabilidad}\n`;
+                    });
+                }
+
+                text += '\n───────────────────────────────────────\n';
+                text += '  INFORME MÉDICO (MedGemma 1.5)\n';
+                text += '───────────────────────────────────────\n\n';
+                text += (App.state.currentResults.informe_medgemma || 'No disponible') + '\n\n';
+
+                text += '═══════════════════════════════════════\n';
+                text += '⚠ AVISO: Esta herramienta es solo de\n';
+                text += '  apoyo diagnóstico. Los resultados\n';
+                text += '  deben ser interpretados por un\n';
+                text += '  profesional médico calificado.\n';
+                text += '═══════════════════════════════════════\n';
+
+                return text;
+            },
+
+            downloadTxt() {
+                if (!App.state.currentResults) {
+                    Toast.show('No hay resultados para exportar', 'warning');
+                    return;
+                }
+
+                const text = this.generateText();
+                const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'medvision_informe_' + Date.now() + '.txt';
+                a.click();
+                URL.revokeObjectURL(url);
+                Toast.show('Informe TXT descargado', 'success');
+            },
+
+            downloadPdf() {
+                if (!App.state.currentResults) {
+                    Toast.show('No hay resultados para exportar', 'warning');
+                    return;
+                }
+
+                // Crear ventana de impresión con estilos
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>MedVision - Informe de Análisis</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
+                            h1 { color: #0ea5e9; border-bottom: 2px solid #0ea5e9; padding-bottom: 10px; }
+                            h2 { color: #1e293b; margin-top: 30px; }
+                            .meta { color: #64748b; margin-bottom: 20px; }
+                            .clasificacion { margin: 10px 0; padding: 10px; background: #f8fafc; border-radius: 8px; }
+                            .informe { line-height: 1.8; }
+                            .disclaimer { background: #fef3c7; padding: 15px; border-radius: 8px; margin-top: 30px; font-size: 0.9rem; }
+                            @media print { body { padding: 20px; } }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>🏥 MedVision - Informe de Análisis</h1>
+                        <div class="meta">
+                            <p><strong>Fecha:</strong> ${Utils.formatDate(new Date())}</p>
+                            <p><strong>Modalidad:</strong> ${document.getElementById('modalidad').value.replace(/_/g, ' ')}</p>
+                        </div>
+                        <h2>📊 Clasificación (MedSigLIP)</h2>
+                        ${Array.isArray(App.state.currentResults.clasificacion_siglip) ?
+                            App.state.currentResults.clasificacion_siglip.map(item =>
+                                `<div class="clasificacion"><strong>${Utils.sanitizeHTML(item.etiqueta.replace(/_/g, ' '))}:</strong> ${Utils.sanitizeHTML(item.probabilidad)}</div>`
+                            ).join('') : '<p>No disponible</p>'}
+                        <h2>📋 Informe Médico (MedGemma 1.5)</h2>
+                        <div class="informe">${Utils.formatMarkdownSafe(App.state.currentResults.informe_medgemma || 'No disponible')}</div>
+                        <div class="disclaimer">
+                            <strong>⚠ Aviso:</strong> Esta herramienta es solo de apoyo diagnóstico. Los resultados deben ser interpretados por un profesional médico calificado. No reemplaza el juicio clínico.
+                        </div>
+                    </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                printWindow.print();
+                Toast.show('Usa "Guardar como PDF" en el diálogo de impresión', 'info');
+            },
+
+            async downloadImage() {
+                if (!App.state.currentResults) {
+                    Toast.show('No hay resultados para exportar', 'warning');
+                    return;
+                }
+
+                if (typeof html2canvas === 'undefined') {
+                    Toast.show('Cargando librería de captura...', 'info');
+                    return;
+                }
+
+                try {
+                    Toast.show('Generando imagen...', 'info');
+                    const canvas = await html2canvas(DOM.resultsSection, {
+                        backgroundColor: '#ffffff',
+                        scale: 2
+                    });
+
+                    const link = document.createElement('a');
+                    link.download = 'medvision_resultados_' + Date.now() + '.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    Toast.show('Imagen descargada', 'success');
+                } catch (error) {
+                    Toast.show('Error al generar imagen', 'error');
+                }
+            },
+
+            init() {
+                document.getElementById('exportPdfBtn').addEventListener('click', () => this.downloadPdf());
+                document.getElementById('exportTxtBtn').addEventListener('click', () => this.downloadTxt());
+                document.getElementById('exportImgBtn').addEventListener('click', () => this.downloadImage());
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Confirmación (mejora 10)
+        // ==========================================
+        const Confirm = {
+            callback: null,
+
+            show(onConfirm) {
+                this.callback = onConfirm;
+                DOM.confirmModal.classList.add('show');
+            },
+
+            hide() {
+                DOM.confirmModal.classList.remove('show');
+                this.callback = null;
+            },
+
+            init() {
+                document.getElementById('confirmYes').addEventListener('click', () => {
+                    if (this.callback) this.callback();
+                    this.hide();
+                });
+                document.getElementById('confirmNo').addEventListener('click', () => this.hide());
+                DOM.confirmModal.addEventListener('click', (e) => {
+                    if (e.target === DOM.confirmModal) this.hide();
+                });
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: Traducción del Informe
+        // ==========================================
+        const Translate = {
+            originalInforme: null,
+            currentLang: null,
+
+            async translateText(text, targetLang) {
+                const url = DOM.apiUrlInput.value.trim().replace(/\/$/, '');
+
+                // Enviar al backend para traducir
+                const formData = new FormData();
+                formData.append('texto', text);
+                formData.append('idioma_destino', targetLang);
+
+                const response = await Utils.fetchWithTimeout(url + '/traducir', {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'ngrok-skip-browser-warning': 'true' }
+                }, 180000);
+
+                if (!response.ok) {
+                    throw new Error('Error al traducir');
+                }
+
+                const data = await response.json();
+                return data.texto_traducido || data.translated_text || text;
+            },
+
+            async translate() {
+                const langSelect = document.getElementById('translateLang');
+                const translateBtn = document.getElementById('translateBtn');
+                const translateStatus = document.getElementById('translateStatus');
+                const targetLang = langSelect.value;
+
+                if (!targetLang) {
+                    // Restaurar original
+                    if (this.originalInforme) {
+                        DOM.informeResults.innerHTML = '<p>' + Utils.formatMarkdownSafe(this.originalInforme) + '</p>';
+                        translateStatus.textContent = '';
+                        translateStatus.className = 'translate-status';
+                        this.currentLang = null;
+                    }
+                    return;
+                }
+
+                if (!App.state.currentResults || !App.state.currentResults.informe_medgemma) {
+                    Toast.show('No hay informe para traducir', 'warning');
+                    return;
+                }
+
+                // Guardar original si no existe
+                if (!this.originalInforme) {
+                    this.originalInforme = App.state.currentResults.informe_medgemma;
+                }
+
+                // Mostrar estado de carga
+                translateBtn.disabled = true;
+                translateBtn.classList.add('loading');
+                translateStatus.textContent = 'Traduciendo...';
+                translateStatus.className = 'translate-status';
+
+                try {
+                    const translatedText = await this.translateText(this.originalInforme, targetLang);
+
+                    DOM.informeResults.innerHTML = '<p>' + Utils.formatMarkdownSafe(translatedText) + '</p>';
+                    this.currentLang = targetLang;
+
+                    translateStatus.textContent = '✓ Traducido a ' + Utils.getLanguageName(targetLang);
+                    translateStatus.className = 'translate-status success';
+                    Toast.show('Informe traducido correctamente', 'success');
+
+                } catch (error) {
+                    translateStatus.textContent = '✗ Error al traducir';
+                    translateStatus.className = 'translate-status error';
+                    Toast.show('Error al traducir: ' + error.message, 'error');
+                } finally {
+                    translateBtn.disabled = false;
+                    translateBtn.classList.remove('loading');
+                }
+            },
+
+            reset() {
+                this.originalInforme = null;
+                this.currentLang = null;
+                const langSelect = document.getElementById('translateLang');
+                const translateStatus = document.getElementById('translateStatus');
+                if (langSelect) langSelect.value = '';
+                if (translateStatus) {
+                    translateStatus.textContent = '';
+                    translateStatus.className = 'translate-status';
+                }
+            },
+
+            init() {
+                const langSelect = document.getElementById('translateLang');
+                const translateBtn = document.getElementById('translateBtn');
+
+                // Habilitar botón cuando hay selección
+                langSelect.addEventListener('change', () => {
+                    translateBtn.disabled = !langSelect.value || !App.state.currentResults;
+                });
+
+                // Traducir al hacer clic
+                translateBtn.addEventListener('click', () => this.translate());
+            }
+        };
+
+        // ==========================================
+        // INICIALIZACIÓN
+        // ==========================================
+        function init() {
+            // Cargar URL guardada (deofuscada)
+            setTimeout(() => document.getElementById('connectBtn').click(), 1000);
+            const savedUrl = localStorage.getItem('medvision_api_url');
+            if (savedUrl) {
+                DOM.apiUrlInput.value = Utils.deobfuscateUrl(savedUrl);
+                Connection.test();
+            }
+
+            // Event Listeners
+            DOM.connectBtn.addEventListener('click', () => Connection.test());
+            DOM.apiUrlInput.addEventListener('keypress', e => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    Connection.test();
+                }
+            });
+
+            // Drag & Drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => {
+                DOM.dropZone.addEventListener(e, ev => { ev.preventDefault(); ev.stopPropagation(); });
+            });
+            ['dragenter', 'dragover'].forEach(e => {
+                DOM.dropZone.addEventListener(e, () => DOM.dropZone.classList.add('dragover'));
+            });
+            ['dragleave', 'drop'].forEach(e => {
+                DOM.dropZone.addEventListener(e, () => DOM.dropZone.classList.remove('dragover'));
+            });
+            DOM.dropZone.addEventListener('drop', e => {
+                if (e.dataTransfer.files.length) {
+                    DOM.fileInput.files = e.dataTransfer.files;
+                    FileHandler.handle(e.dataTransfer.files[0]);
+                }
+            });
+            DOM.dropZone.addEventListener('click', () => DOM.fileInput.click());
+            DOM.dropZone.addEventListener('keydown', e => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    DOM.fileInput.click();
+                }
+            });
+            DOM.fileInput.addEventListener('change', e => {
+                if (e.target.files.length) FileHandler.handle(e.target.files[0]);
+            });
+            document.getElementById('changeImageBtn').addEventListener('click', () => DOM.fileInput.click());
+
+            // Form submit
+            DOM.form.addEventListener('submit', e => {
+                e.preventDefault();
+                Analysis.submit();
+            });
+
+            // New Analysis con confirmación (mejora 10)
+            DOM.newAnalysisBtn.addEventListener('click', () => {
+                if (App.state.hasResults) {
+                    Confirm.show(() => {
+                        FileHandler.reset();
+                        UI.hideResults();
+                        Translate.reset();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        Toast.show('Listo para un nuevo análisis', 'info');
+                    });
+                } else {
+                    FileHandler.reset();
+                    Translate.reset();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+
+            // Inicializar módulos
+            Zoom.init();
+            History.init();
+            Export.init();
+            Confirm.init();
+            Translate.init();
+        }
+
+        // Ejecutar cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Registrar Service Worker (mejora 3 - PWA)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('[SW] Registrado:', reg.scope))
+                    .catch(err => console.warn('[SW] Error:', err));
+            });
+        }
+    </script>
+</body>
+</html>
