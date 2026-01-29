@@ -84,7 +84,7 @@
         <!-- API Configuration -->
         <nav class="api-config" aria-label="Configuración de conexión">
             <label for="apiUrl"><i class="fas fa-server" aria-hidden="true"></i> URL de la API:</label>
-            <input type="url" id="apiUrl" placeholder="http://10.8.0.7:8001" value="http://10.8.0.7:8001" autocomplete="url">
+            <input type="url" id="apiUrl" placeholder="Ingresa la URL de la API" value="" autocomplete="url">
             <button type="button" id="connectBtn" aria-label="Conectar con la API"><i class="fas fa-plug" aria-hidden="true"></i> Conectar</button>
             <span class="status disconnected" id="connectionStatus" role="status" aria-live="polite">
                 <i class="fas fa-circle" aria-hidden="true"></i> Desconectado
@@ -1239,7 +1239,6 @@
         // ==========================================
         function init() {
             // Cargar URL guardada (deofuscada)
-            setTimeout(() => document.getElementById('connectBtn').click(), 1000);
             const savedUrl = localStorage.getItem('medvision_api_url');
             if (savedUrl) {
                 DOM.apiUrlInput.value = Utils.deobfuscateUrl(savedUrl);
