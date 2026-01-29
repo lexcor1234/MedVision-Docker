@@ -1,7 +1,0 @@
-services:
-  medvision-web:
-    build: .
-    container_name: medvision-web
-    ports:
-      - "80:80"
-    restart: unless-stopped
