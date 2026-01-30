@@ -1,6 +1,6 @@
 {
-    "name": "MedVision - Análisis de Imágenes Médicas con IA",
-    "short_name": "MedVision",
+    "name": "EvaVision - Análisis de Imágenes Médicas con IA",
+    "short_name": "EvaVision",
     "description": "Herramienta de análisis de imágenes médicas con Inteligencia Artificial usando MedGemma 1.5 y MedSigLIP",
     "start_url": "/",
     "display": "standalone",

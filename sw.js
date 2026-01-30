@@ -1,5 +1,5 @@
-// MedVision Service Worker
-const CACHE_NAME = 'medvision-v1';
+// EvaVision Service Worker
+const CACHE_NAME = 'evavision-v1';
 const STATIC_ASSETS = [
     '/',
     '/index.html',

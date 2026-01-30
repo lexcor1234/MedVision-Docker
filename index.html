@@ -6,44 +6,43 @@
 
     <!-- Security Headers -->
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <!-- CSP mejorado (mejora 11) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://html2canvas.hertzen.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob:; connect-src 'self' https://*.ngrok-free.dev https://*.ngrok.io https://*.trycloudflare.com http://localhost:* http://127.0.0.1:* http://10.8.0.7:* http://10.8.0.8:* http://10.8.0.6:*;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://html2canvas.hertzen.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob:; connect-src 'self' https://*.ngrok-free.dev https://*.ngrok.io https://*.trycloudflare.com https://api.mymemory.translated.net http://localhost:* http://127.0.0.1:* http://10.8.0.7:* http://10.8.0.8:* http://10.8.0.6:*;">
 
-    <title>MedVision - Análisis de Imágenes Médicas con IA</title>
+    <title>EvaVision - Análisis de Imágenes Médicas con IA</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="MedVision: Herramienta de análisis de imágenes médicas con Inteligencia Artificial. Utiliza MedGemma 1.5 y MedSigLIP para clasificar radiografías, tomografías, resonancias y más.">
+    <meta name="description" content="EvaVision: Herramienta de análisis de imágenes médicas con Inteligencia Artificial. Utiliza MedGemma 1.5 y MedSigLIP para clasificar radiografías, tomografías, resonancias y más.">
     <meta name="keywords" content="análisis médico, IA, inteligencia artificial, radiografía, tomografía, MedGemma, diagnóstico, imágenes médicas">
-    <meta name="author" content="MedVision">
+    <meta name="author" content="EvaVision">
     <meta name="robots" content="index, follow">
 
     <!-- Canonical URL (mejora 4) -->
-    <link rel="canonical" href="https://medvision.app">
+    <link rel="canonical" href="https://evavision.app">
 
     <!-- Open Graph / Facebook (mejora 4 y 5) -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://medvision.app">
-    <meta property="og:title" content="MedVision - Análisis de Imágenes Médicas con IA">
+    <meta property="og:url" content="https://evavision.app">
+    <meta property="og:title" content="EvaVision - Análisis de Imágenes Médicas con IA">
     <meta property="og:description" content="Analiza imágenes médicas con Inteligencia Artificial. Clasificación automática y generación de informes con MedGemma 1.5.">
     <meta property="og:locale" content="es_ES">
-    <meta property="og:image" content="https://medvision.app/og-image.png">
+    <meta property="og:image" content="https://evavision.app/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
     <!-- Twitter (mejora 5) -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="MedVision - Análisis de Imágenes Médicas con IA">
+    <meta name="twitter:title" content="EvaVision - Análisis de Imágenes Médicas con IA">
     <meta name="twitter:description" content="Analiza imágenes médicas con Inteligencia Artificial. Clasificación automática y generación de informes.">
-    <meta name="twitter:image" content="https://medvision.app/og-image.png">
+    <meta name="twitter:image" content="https://evavision.app/og-image.png">
 
     <!-- Favicon (SVG inline) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#667eea">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#667eea">
 
     <!-- Preconnect para mejorar rendimiento -->
@@ -70,26 +69,1751 @@
 
     <!-- Web App Manifest para PWA (mejora 3) -->
     <link rel="manifest" href="manifest.json">
+
+    <!-- Estilos mejorados -->
+    <style>
+        /* Reset y base */
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Fondo animado */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .bg-animation span {
+            position: absolute;
+            display: block;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            animation: floatUp 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%;
+        }
+
+        .bg-animation span:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; animation-duration: 20s; }
+        .bg-animation span:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 25s; }
+        .bg-animation span:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+        .bg-animation span:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+        .bg-animation span:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+        .bg-animation span:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+        .bg-animation span:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+        .bg-animation span:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+        .bg-animation span:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+        .bg-animation span:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+            100% { transform: translateY(-1500px) rotate(720deg); opacity: 0; }
+        }
+
+        /* Orbes de luz */
+        .glow-orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glow-orb-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(102, 126, 234, 0.3);
+            top: -100px;
+            left: -100px;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .glow-orb-2 {
+            width: 300px;
+            height: 300px;
+            background: rgba(118, 75, 162, 0.3);
+            bottom: -50px;
+            right: -50px;
+            animation: pulse 6s ease-in-out infinite reverse;
+        }
+
+        .glow-orb-3 {
+            width: 200px;
+            height: 200px;
+            background: rgba(78, 205, 196, 0.2);
+            top: 50%;
+            right: 10%;
+            animation: pulse 10s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        /* Container principal */
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header mejorado - MÁS COMPACTO */
+        .header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+            border-radius: 20px;
+            padding: 20px 25px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            margin: 0;
+        }
+
+        .header p {
+            opacity: 0.9;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .header-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header .badge {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .header-badges {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* User Profile Container */
+        .user-profile-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.95) 0%, rgba(118, 75, 162, 0.95) 100%);
+            padding: 10px 18px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .user-name {
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-profile .fa-chevron-down {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.7rem;
+            transition: transform 0.3s ease;
+        }
+
+        .user-profile-container.open .user-profile .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        /* Profile Dropdown Menu */
+        .profile-dropdown {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .user-profile-container.open .profile-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profile-header .avatar-large {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            margin: 0 auto 10px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-header .profile-username {
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .profile-header .profile-fullname {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            margin-top: 3px;
+        }
+
+        .profile-menu {
+            padding: 10px 0;
+        }
+
+        .profile-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: #334155;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        .profile-menu-item:hover {
+            background: #f1f5f9;
+            color: #667eea;
+        }
+
+        .profile-menu-item i {
+            width: 20px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .profile-menu-item:hover i {
+            color: #667eea;
+        }
+
+        .profile-menu-divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 5px 0;
+        }
+
+        .profile-menu-item.logout {
+            color: #ef4444;
+        }
+
+        .profile-menu-item.logout:hover {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .profile-menu-item.logout i {
+            color: #ef4444;
+        }
+
+        .header .badge:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Botón de salir mejorado */
+        .btn-logout {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+            border: none !important;
+            padding: 10px 20px !important;
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        /* API Config mejorado - colores del login */
+        .api-config {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.85) 0%, rgba(118, 75, 162, 0.85) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
+
+        .api-config input {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .api-config input:focus {
+            border-color: #4ECDC4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+        }
+
+        .api-config button {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            border: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .api-config button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+        }
+
+        /* Main Card mejorado */
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 1) 0%, rgba(118, 75, 162, 1) 100%);
+            border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .card-header i {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .card-header h2 {
+            color: white;
+        }
+
+        /* Upload section mejorado - ÁREA MÁS GRANDE CON ANIMACIONES */
+        .upload-section {
+            border: 3px dashed rgba(78, 205, 196, 0.5);
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.05) 0%, rgba(102, 126, 234, 0.05) 100%);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(78, 205, 196, 0.2) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .upload-section:hover::before, .upload-section.dragover::before {
+            opacity: 1;
+            width: 300px;
+            height: 300px;
+        }
+
+        .upload-section:hover, .upload-section.dragover {
+            border-color: #4ECDC4;
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.15) 0%, rgba(102, 126, 234, 0.15) 100%);
+            transform: scale(1.02);
+            box-shadow: 0 20px 40px rgba(78, 205, 196, 0.2);
+        }
+
+        .upload-section i {
+            color: #4ECDC4;
+            font-size: 4rem !important;
+            margin-bottom: 20px;
+            transition: all 0.4s ease;
+        }
+
+        .upload-section:hover i, .upload-section.dragover i {
+            transform: translateY(-10px) scale(1.1);
+            text-shadow: 0 10px 30px rgba(78, 205, 196, 0.5);
+        }
+
+        .upload-section h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .upload-section.dragover {
+            animation: dragPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes dragPulse {
+            0%, 100% { border-color: rgba(78, 205, 196, 0.8); }
+            50% { border-color: rgba(102, 126, 234, 0.8); }
+        }
+
+        /* Botones principales mejorados - CON GRADIENTES ANIMADOS */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+            background-size: 200% 200%;
+            border: none;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            border-radius: 14px;
+            transition: all 0.4s ease;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.5);
+            background-position: 100% 100%;
+        }
+
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        .btn-primary i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover:not(:disabled) i {
+            transform: scale(1.2);
+        }
+
+        /* Botón secundario con gradiente */
+        .btn-secondary-gradient {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(100, 116, 139, 0.4);
+        }
+
+        /* Botón de éxito con gradiente */
+        .btn-success-gradient {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-success-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Result cards mejorados */
+        .result-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .result-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-header.clasificacion {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 1) 0%, rgba(118, 75, 162, 0.9) 100%);
+        }
+
+        .result-header.informe {
+            background: linear-gradient(135deg, rgba(118, 75, 162, 1) 0%, rgba(102, 126, 234, 0.9) 100%);
+        }
+
+        /* Export buttons mejorados - CON GRADIENTES ANIMADOS */
+        .export-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .btn-export {
+            flex: 1;
+            min-width: 140px;
+            padding: 14px 24px;
+            border-radius: 14px;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-export::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-export:hover::before {
+            left: 100%;
+        }
+
+        .btn-export:hover {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .btn-export:active {
+            transform: translateY(-2px) scale(1);
+        }
+
+        .btn-export i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-export:hover i {
+            transform: scale(1.2);
+        }
+
+        .btn-export-pdf {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #ef4444 100%);
+            background-size: 200% 200%;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+        }
+
+        .btn-export-pdf:hover {
+            box-shadow: 0 12px 30px rgba(239, 68, 68, 0.5);
+            background-position: 100% 100%;
+        }
+
+        .btn-export-txt {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+            background-size: 200% 200%;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+        }
+
+        .btn-export-txt:hover {
+            box-shadow: 0 12px 30px rgba(102, 126, 234, 0.5);
+            background-position: 100% 100%;
+        }
+
+        .btn-export-img {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 50%, #4ECDC4 100%);
+            background-size: 200% 200%;
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.35);
+        }
+
+        .btn-export-img:hover {
+            box-shadow: 0 12px 30px rgba(78, 205, 196, 0.5);
+            background-position: 100% 100%;
+        }
+
+        /* History toggle mejorado - colores del login */
+        .history-toggle {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 15px 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .history-toggle:hover {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 1) 0%, rgba(118, 75, 162, 1) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .history-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .history-thumb-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* Footer mejorado - colores del login */
+        .footer {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Loading overlay mejorado */
+        .loading-overlay {
+            background: rgba(15, 12, 41, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .loading-content {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .spinner {
+            border-top-color: #4ECDC4;
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #4ECDC4 0%, #667eea 100%);
+        }
+
+        /* Toast mejorado */
+        .toast {
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .toast.success { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .toast.error { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+        .toast.warning { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .toast.info { background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%); }
+
+        /* Select mejorado */
+        select {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            border-color: #4ECDC4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+        }
+
+        /* Textarea mejorado */
+        textarea {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        textarea:focus {
+            border-color: #4ECDC4;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+        }
+
+        /* Disclaimer mejorado */
+        .disclaimer {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 15px;
+        }
+
+        /* Status badges mejorados */
+        .status.connected {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.2) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.5);
+        }
+
+        .status.disconnected {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.2) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+        }
+
+        .status.checking {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.2) 100%);
+            border: 1px solid rgba(245, 158, 11, 0.5);
+        }
+
+        /* Zoom modal mejorado */
+        .zoom-modal {
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .zoom-controls {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 15px 25px;
+        }
+
+        .zoom-controls button {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .zoom-controls button:hover {
+            transform: scale(1.1);
+        }
+
+        /* Confirm modal mejorado */
+        .confirm-modal {
+            background: rgba(15, 12, 41, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .confirm-content {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .confirm-yes {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-yes:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .confirm-no {
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 25px;
+            transition: all 0.3s ease;
+        }
+
+        .confirm-no:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Animaciones de entrada */
+        .header, .api-config, .main-card, .history-section, .footer {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .api-config { animation-delay: 0.1s; }
+        .main-card { animation-delay: 0.2s; }
+        .history-section { animation-delay: 0.3s; }
+        .footer { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive ajustes */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .header-left {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .upload-section {
+                min-height: 220px;
+                padding: 30px 20px;
+            }
+
+            .upload-section i {
+                font-size: 3rem !important;
+            }
+
+            .progress-stepper {
+                padding: 15px;
+                gap: 5px;
+            }
+
+            .step-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+
+            .step-label {
+                font-size: 0.75rem;
+            }
+
+            .step-number {
+                width: 18px;
+                height: 18px;
+                font-size: 0.65rem;
+                top: -5px;
+                right: -5px;
+            }
+
+            .results-tabs {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .results-tab {
+                justify-content: flex-start;
+                padding: 12px 16px;
+            }
+
+            .export-buttons {
+                flex-direction: column;
+            }
+
+            .btn-export {
+                width: 100%;
+            }
+        }
+
+        /* ========================================
+           MODO OSCURO / CLARO
+        ======================================== */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        /* ========================================
+           STEPPER DE PROGRESO - MEJORADO
+        ======================================== */
+        .progress-stepper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+            margin: 20px 0;
+            padding: 25px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex: 1;
+            max-width: 180px;
+        }
+
+        .step-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-icon i {
+            transition: all 0.3s ease;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 700;
+        }
+
+        .step-label {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .step-line {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.15);
+            z-index: 1;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .step-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #4ECDC4);
+            transition: width 0.5s ease;
+        }
+
+        .step:last-child .step-line {
+            display: none;
+        }
+
+        /* Estado activo */
+        .step.active .step-icon {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            border-color: #4ECDC4;
+            color: white;
+            transform: scale(1.15);
+            box-shadow: 0 0 30px rgba(78, 205, 196, 0.6);
+        }
+
+        .step.active .step-icon i {
+            animation: iconBounce 1s ease infinite;
+        }
+
+        .step.active .step-number {
+            background: #4ECDC4;
+            color: white;
+        }
+
+        .step.active .step-label {
+            color: #4ECDC4;
+            font-weight: 700;
+        }
+
+        /* Estado completado */
+        .step.completed .step-icon {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-color: #10b981;
+            color: white;
+            transform: scale(1);
+        }
+
+        .step.completed .step-icon i::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+
+        .step.completed .step-number {
+            background: #10b981;
+            color: white;
+        }
+
+        .step.completed .step-label {
+            color: #10b981;
+        }
+
+        .step.completed .step-line::after {
+            width: 100%;
+        }
+
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+
+        @keyframes stepPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(78, 205, 196, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(78, 205, 196, 0.8); }
+        }
+
+        /* ========================================
+           MICROINTERACCIONES
+        ======================================== */
+        /* Botones con ripple effect */
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ripple::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(255,255,255,0.3) 10%, transparent 10%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+
+        .btn-ripple:active::after {
+            transform: scale(0, 0);
+            opacity: 1;
+            transition: 0s;
+        }
+
+        /* Iconos con bounce */
+        .icon-bounce:hover i {
+            animation: iconBounce 0.5s ease;
+        }
+
+        @keyframes iconBounce {
+            0%, 100% { transform: translateY(0); }
+            25% { transform: translateY(-5px); }
+            50% { transform: translateY(0); }
+            75% { transform: translateY(-3px); }
+        }
+
+        /* Cards con tilt */
+        .card-tilt {
+            transition: transform 0.3s ease;
+        }
+
+        .card-tilt:hover {
+            transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) scale(1.02);
+        }
+
+        /* Checkbox animado */
+        .checkbox-animated {
+            position: relative;
+            width: 24px;
+            height: 24px;
+        }
+
+        .checkbox-animated input {
+            opacity: 0;
+            position: absolute;
+        }
+
+        .checkbox-animated .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-animated input:checked + .checkmark {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            border-color: #4ECDC4;
+        }
+
+        .checkbox-animated .checkmark::after {
+            content: '';
+            position: absolute;
+            display: none;
+            left: 8px;
+            top: 4px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-animated input:checked + .checkmark::after {
+            display: block;
+            animation: checkAnim 0.3s ease;
+        }
+
+        @keyframes checkAnim {
+            from { transform: rotate(45deg) scale(0); }
+            to { transform: rotate(45deg) scale(1); }
+        }
+
+        /* Input focus glow */
+        .input-glow:focus {
+            animation: inputGlow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes inputGlow {
+            from { box-shadow: 0 0 5px rgba(78, 205, 196, 0.3); }
+            to { box-shadow: 0 0 15px rgba(78, 205, 196, 0.6); }
+        }
+
+        /* ========================================
+           SISTEMA DE TABS PARA RESULTADOS
+        ======================================== */
+        .results-tabs {
+            display: flex;
+            gap: 5px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+
+        .results-tab {
+            flex: 1;
+            padding: 14px 20px;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .results-tab:hover {
+            background: rgba(255, 255, 255, 0.5);
+            color: #1e293b;
+        }
+
+        .results-tab.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .results-tab i {
+            font-size: 1rem;
+        }
+
+        .results-tab-content {
+            display: none;
+            animation: tabFadeIn 0.4s ease;
+        }
+
+        .results-tab-content.active {
+            display: block;
+        }
+
+        @keyframes tabFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========================================
+           GLASSMORPHISM PARA CARDS
+        ======================================== */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .glass-card-dark {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* ========================================
+           SKELETON LOADING - MEJORADO
+        ======================================== */
+        .skeleton {
+            background: linear-gradient(90deg,
+                rgba(200, 200, 200, 0.2) 25%,
+                rgba(200, 200, 200, 0.4) 50%,
+                rgba(200, 200, 200, 0.2) 75%);
+            background-size: 200% 100%;
+            animation: skeletonShimmer 1.5s infinite;
+            border-radius: 8px;
+        }
+
+        @keyframes skeletonShimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-text {
+            height: 16px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        .skeleton-text.short {
+            width: 60%;
+        }
+
+        .skeleton-title {
+            height: 28px;
+            width: 50%;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+
+        .skeleton-image {
+            height: 200px;
+            width: 100%;
+            border-radius: 16px;
+        }
+
+        .skeleton-bar {
+            height: 35px;
+            margin-bottom: 15px;
+            border-radius: 17px;
+        }
+
+        .skeleton-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        /* Skeleton container para resultados */
+        .skeleton-results {
+            padding: 30px;
+        }
+
+        .skeleton-results .skeleton-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .skeleton-results .skeleton-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* ========================================
+           ATAJOS DE TECLADO - TOOLTIP
+        ======================================== */
+        .keyboard-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            border-radius: 15px;
+            color: white;
+            font-size: 0.85rem;
+            z-index: 1000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .keyboard-hint.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .keyboard-hint kbd {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 0 3px;
+        }
+
+        .shortcuts-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 12, 41, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 5000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .shortcuts-modal.show {
+            display: flex;
+        }
+
+        .shortcuts-content {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+
+        .shortcuts-content h3 {
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .shortcut-item:last-child {
+            border-bottom: none;
+        }
+
+        .shortcut-keys {
+            display: flex;
+            gap: 5px;
+        }
+
+        .shortcut-keys kbd {
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            box-shadow: 0 3px 10px rgba(78, 205, 196, 0.3);
+        }
+
+        /* ========================================
+           FLOATING ACTION BUTTON
+        ======================================== */
+        .fab-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 10px 30px rgba(78, 205, 196, 0.5);
+        }
+
+        .fab-menu {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .fab-container.open .fab-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .fab-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .fab-item button {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab-item button:hover {
+            transform: scale(1.1);
+        }
+
+        .fab-item span {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .fab-item:nth-child(1) button { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .fab-item:nth-child(2) button { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .fab-item:nth-child(3) button { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+
+        /* ========================================
+           NOTIFICACIONES MEJORADAS
+        ======================================== */
+        .toast {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            animation: toastSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes toastSlideIn {
+            from {
+                transform: translateX(100%) scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .toast-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 0 0 15px 15px;
+            animation: toastProgress 4s linear forwards;
+        }
+
+        @keyframes toastProgress {
+            from { width: 100%; }
+            to { width: 0%; }
+        }
+
+        /* Contador de análisis */
+        .analysis-counter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .analysis-counter i {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .analysis-counter span {
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
+    <script>
+          if (!localStorage.getItem('evavision_user')) {
+            window.location.href = 'inicio.html';
+          }
+      </script>
+
+    <!-- Fondo animado -->
+    <div class="bg-animation">
+        <span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="glow-orb glow-orb-1"></div>
+    <div class="glow-orb glow-orb-2"></div>
+    <div class="glow-orb glow-orb-3"></div>
+
+    <!-- Perfil de usuario con menú -->
+    <div class="user-profile-container" id="userProfileContainer">
+        <div class="user-profile" onclick="toggleProfileMenu()">
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <span class="user-name" id="userName">Usuario</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="profile-dropdown">
+            <div class="profile-header">
+                <div class="avatar-large">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="profile-username" id="profileUsername">@usuario</div>
+                <div class="profile-fullname" id="profileFullname">Nombre Completo</div>
+            </div>
+            <div class="profile-menu">
+                <button class="profile-menu-item" onclick="showProfileInfo()">
+                    <i class="fas fa-id-card"></i>
+                    <span>Mi Perfil</span>
+                </button>
+                <button class="profile-menu-item" onclick="showAnalysisHistory()">
+                    <i class="fas fa-history"></i>
+                    <span>Historial de Análisis</span>
+                </button>
+                <button class="profile-menu-item" onclick="showShortcuts(); toggleProfileMenu();">
+                    <i class="fas fa-keyboard"></i>
+                    <span>Atajos de Teclado</span>
+                </button>
+                <div class="profile-menu-divider"></div>
+                <button class="profile-menu-item logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <a href="#analysisForm" class="skip-link">Saltar al formulario de análisis</a>
     <main class="container">
-        <!-- Header -->
+        <!-- Header compacto -->
         <header class="header" role="banner">
-            <h1><i class="fas fa-heartbeat" aria-hidden="true"></i> MedVision</h1>
-            <p>Análisis de Imágenes Médicas con Inteligencia Artificial</p>
-            <span class="badge"><i class="fas fa-microchip" aria-hidden="true"></i> MedGemma 1.5 + MedSigLIP</span>
-        </header>
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 style="position: relative; z-index: 1; display: flex; align-items: center; gap: 12px;">
+                        <img src="3.png" alt="EvaVision Logo" style="width: 70px; height: 70px; object-fit: contain;">
+                        vaVision
+                    </h1>
+                    <div class="header-info">
+                        <p>Análisis de Imágenes Médicas con IA</p>
+                    </div>
+                </div>
+                <div class="analysis-counter" id="analysisCounter">
+                    <i class="fas fa-chart-line"></i>
+                    <span id="totalAnalysis">0</span> análisis
+                </div>
+            </div>
+            <div class="header-badges" style="margin-top: 12px;">
+                <span class="badge"><i class="fas fa-microchip" aria-hidden="true"></i> MedGemma 1.5 + MedSigLIP</span>
+                <span class="badge" style="cursor: pointer;" onclick="showShortcuts()" title="Ver atajos de teclado">
+                    <i class="fas fa-keyboard" aria-hidden="true"></i> Atajos: ?
+                </span>
+            </div>
 
-        <!-- API Configuration -->
-        <nav class="api-config" aria-label="Configuración de conexión">
-            <label for="apiUrl"><i class="fas fa-server" aria-hidden="true"></i> URL de la API:</label>
-            <input type="url" id="apiUrl" placeholder="Ingresa la URL de la API" value="" autocomplete="url">
-            <button type="button" id="connectBtn" aria-label="Conectar con la API"><i class="fas fa-plug" aria-hidden="true"></i> Conectar</button>
-            <span class="status disconnected" id="connectionStatus" role="status" aria-live="polite">
-                <i class="fas fa-circle" aria-hidden="true"></i> Desconectado
-            </span>
-        </nav>
+            <!-- Stepper de progreso mejorado -->
+            <div class="progress-stepper" id="progressStepper">
+                <div class="step active" id="step1">
+                    <div class="step-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span class="step-number">1</span>
+                    </div>
+                    <span class="step-label">Subir Imagen</span>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step" id="step2">
+                    <div class="step-icon">
+                        <i class="fas fa-brain"></i>
+                        <span class="step-number">2</span>
+                    </div>
+                    <span class="step-label">Analizar</span>
+                    <div class="step-line"></div>
+                </div>
+                <div class="step" id="step3">
+                    <div class="step-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                        <span class="step-number">3</span>
+                    </div>
+                    <span class="step-label">Resultados</span>
+                </div>
+            </div>
+        </header>
 
         <!-- Main Card -->
         <section class="main-card" aria-labelledby="analysis-heading">
@@ -166,46 +1890,102 @@
                     </div>
                 </form>
 
-                <!-- Results -->
+                <!-- Results con Tabs -->
                 <section class="results-section" id="resultsSection" aria-labelledby="results-heading">
                     <h3 id="results-heading" class="visually-hidden">Resultados del análisis</h3>
-                    <hr style="margin: 30px 0; border: none; border-top: 2px solid var(--border);" aria-hidden="true">
+                    <hr style="margin: 25px 0; border: none; border-top: 2px solid var(--border);" aria-hidden="true">
 
-                    <article class="result-card" aria-labelledby="clasificacion-heading">
-                        <header class="result-header clasificacion">
-                            <i class="fas fa-chart-bar" aria-hidden="true"></i>
-                            <h4 id="clasificacion-heading">Clasificación (MedSigLIP)</h4>
-                        </header>
-                        <div class="result-body" id="clasificacionResults" role="list" aria-label="Lista de clasificaciones"></div>
-                    </article>
+                    <!-- Sistema de Tabs -->
+                    <div class="results-tabs" role="tablist">
+                        <button class="results-tab active" data-tab="clasificacion" role="tab" aria-selected="true">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Clasificación</span>
+                        </button>
+                        <button class="results-tab" data-tab="informe" role="tab" aria-selected="false">
+                            <i class="fas fa-file-medical"></i>
+                            <span>Informe</span>
+                        </button>
+                        <button class="results-tab" data-tab="traduccion" role="tab" aria-selected="false">
+                            <i class="fas fa-language"></i>
+                            <span>Traducción</span>
+                        </button>
+                    </div>
 
-                    <article class="result-card" aria-labelledby="informe-heading">
-                        <header class="result-header informe">
-                            <i class="fas fa-file-medical" aria-hidden="true"></i>
-                            <h4 id="informe-heading">Informe Médico (MedGemma 1.5)</h4>
-                        </header>
-                        <div class="result-body">
-                            <div class="translate-section">
-                                <label for="translateLang"><i class="fas fa-language" aria-hidden="true"></i> Traducir a:</label>
-                                <select id="translateLang">
-                                    <option value="">-- Idioma original --</option>
-                                    <option value="es">🇪🇸 Español</option>
-                                    <option value="en">🇺🇸 English</option>
-                                    <option value="pt">🇧🇷 Português</option>
-                                    <option value="fr">🇫🇷 Français</option>
-                                    <option value="de">🇩🇪 Deutsch</option>
-                                    <option value="it">🇮🇹 Italiano</option>
-                                </select>
-                                <button type="button" class="btn-translate" id="translateBtn" disabled>
-                                    <i class="fas fa-sync-alt" aria-hidden="true"></i> Traducir
-                                </button>
-                                <span class="translate-status" id="translateStatus"></span>
+                    <!-- Tab: Clasificación -->
+                    <div class="results-tab-content active" id="tab-clasificacion" role="tabpanel">
+                        <article class="result-card glass-card" aria-labelledby="clasificacion-heading">
+                            <header class="result-header clasificacion">
+                                <i class="fas fa-chart-bar" aria-hidden="true"></i>
+                                <h4 id="clasificacion-heading">Clasificación (MedSigLIP)</h4>
+                            </header>
+                            <div class="result-body" id="clasificacionResults" role="list" aria-label="Lista de clasificaciones">
+                                <!-- Skeleton loading -->
+                                <div class="skeleton-results" id="skeletonClasificacion" style="display: none;">
+                                    <div class="skeleton skeleton-bar"></div>
+                                    <div class="skeleton skeleton-bar"></div>
+                                    <div class="skeleton skeleton-bar"></div>
+                                    <div class="skeleton skeleton-bar" style="width: 80%;"></div>
+                                </div>
                             </div>
-                            <div class="informe-content" id="informeResults"></div>
-                        </div>
-                    </article>
+                        </article>
+                    </div>
 
-                    <!-- Botones de exportación (mejora 7) -->
+                    <!-- Tab: Informe -->
+                    <div class="results-tab-content" id="tab-informe" role="tabpanel">
+                        <article class="result-card glass-card" aria-labelledby="informe-heading">
+                            <header class="result-header informe">
+                                <i class="fas fa-file-medical" aria-hidden="true"></i>
+                                <h4 id="informe-heading">Informe Médico (MedGemma 1.5)</h4>
+                            </header>
+                            <div class="result-body">
+                                <div class="informe-content" id="informeResults">
+                                    <!-- Skeleton loading -->
+                                    <div class="skeleton-results" id="skeletonInforme" style="display: none;">
+                                        <div class="skeleton skeleton-title"></div>
+                                        <div class="skeleton skeleton-text"></div>
+                                        <div class="skeleton skeleton-text"></div>
+                                        <div class="skeleton skeleton-text short"></div>
+                                        <div class="skeleton skeleton-text"></div>
+                                        <div class="skeleton skeleton-text short"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Tab: Traducción -->
+                    <div class="results-tab-content" id="tab-traduccion" role="tabpanel">
+                        <article class="result-card glass-card" aria-labelledby="traduccion-heading">
+                            <header class="result-header" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white;">
+                                <i class="fas fa-language" aria-hidden="true"></i>
+                                <h4 id="traduccion-heading">Traducir Informe</h4>
+                            </header>
+                            <div class="result-body">
+                                <div class="translate-section">
+                                    <label for="translateLang"><i class="fas fa-globe" aria-hidden="true"></i> Seleccionar idioma:</label>
+                                    <select id="translateLang">
+                                        <option value="">-- Idioma original --</option>
+                                        <option value="es">🇪🇸 Español</option>
+                                        <option value="en">🇺🇸 English</option>
+                                        <option value="pt">🇧🇷 Português</option>
+                                        <option value="fr">🇫🇷 Français</option>
+                                        <option value="de">🇩🇪 Deutsch</option>
+                                        <option value="it">🇮🇹 Italiano</option>
+                                    </select>
+                                    <button type="button" class="btn-translate" id="translateBtn" disabled>
+                                        <i class="fas fa-sync-alt" aria-hidden="true"></i> Traducir
+                                    </button>
+                                </div>
+                                <span class="translate-status" id="translateStatus"></span>
+                                <div class="translated-content" id="translatedContent" style="margin-top: 20px; padding: 20px; background: rgba(245, 158, 11, 0.1); border-radius: 12px; display: none;">
+                                    <h5 style="margin-bottom: 15px; color: #d97706;"><i class="fas fa-check-circle"></i> Texto traducido:</h5>
+                                    <div id="translatedText" style="line-height: 1.8;"></div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- Botones de exportación mejorados -->
                     <div class="export-buttons">
                         <button type="button" class="btn-export btn-export-pdf" id="exportPdfBtn">
                             <i class="fas fa-file-pdf" aria-hidden="true"></i> Exportar PDF
@@ -218,7 +1998,7 @@
                         </button>
                     </div>
 
-                    <button type="button" class="btn btn-new" id="newAnalysisBtn" aria-label="Iniciar un nuevo análisis de imagen">
+                    <button type="button" class="btn btn-new btn-secondary-gradient" id="newAnalysisBtn" aria-label="Iniciar un nuevo análisis de imagen">
                         <i class="fas fa-redo" aria-hidden="true"></i>
                         Nuevo Análisis
                     </button>
@@ -283,6 +2063,47 @@
         </div>
     </div>
 
+    <!-- Modal de atajos de teclado -->
+    <div class="shortcuts-modal" id="shortcutsModal">
+        <div class="shortcuts-content">
+            <h3><i class="fas fa-keyboard" style="color: #4ECDC4;"></i> Atajos de Teclado</h3>
+            <div class="shortcut-item">
+                <span>Nuevo análisis</span>
+                <div class="shortcut-keys"><kbd>Ctrl</kbd><kbd>N</kbd></div>
+            </div>
+            <div class="shortcut-item">
+                <span>Ver/Ocultar historial</span>
+                <div class="shortcut-keys"><kbd>Ctrl</kbd><kbd>H</kbd></div>
+            </div>
+            <div class="shortcut-item">
+                <span>Analizar imagen</span>
+                <div class="shortcut-keys"><kbd>Ctrl</kbd><kbd>A</kbd></div>
+            </div>
+            <div class="shortcut-item">
+                <span>Exportar PDF</span>
+                <div class="shortcut-keys"><kbd>Ctrl</kbd><kbd>P</kbd></div>
+            </div>
+            <div class="shortcut-item">
+                <span>Exportar TXT</span>
+                <div class="shortcut-keys"><kbd>Ctrl</kbd><kbd>S</kbd></div>
+            </div>
+            <div class="shortcut-item">
+                <span>Mostrar atajos</span>
+                <div class="shortcut-keys"><kbd>?</kbd></div>
+            </div>
+            <div class="shortcut-item">
+                <span>Cerrar modal</span>
+                <div class="shortcut-keys"><kbd>Esc</kbd></div>
+            </div>
+            <button onclick="hideShortcuts()" style="margin-top: 25px; width: 100%; padding: 15px; background: linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%); color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer;">
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <!-- Hint de teclado -->
+    <div class="keyboard-hint" id="keyboardHint"></div>
+
     <!-- html2canvas para exportar imagen -->
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" defer></script>
 
@@ -312,17 +2133,17 @@
             // Historial config (mejora 8)
             history: {
                 maxItems: 20,
-                storageKey: 'medvision_history'
+                storageKey: 'evavision_history'
             }
         };
 
         // ==========================================
         // MÓDULO: Elementos DOM
         // ==========================================
+        // URL de la API (fija)
+        const API_URL = 'https://developed-mining-commonwealth-tucson.trycloudflare.com';
+
         const DOM = {
-            apiUrlInput: document.getElementById('apiUrl'),
-            connectionStatus: document.getElementById('connectionStatus'),
-            connectBtn: document.getElementById('connectBtn'),
             dropZone: document.getElementById('dropZone'),
             fileInput: document.getElementById('fileInput'),
             previewContainer: document.getElementById('previewContainer'),
@@ -513,45 +2334,23 @@
             checkInterval: null,
 
             async test() {
-                const url = DOM.apiUrlInput.value.trim().replace(/\/$/, '');
-                if (!url) {
-                    Toast.show('Por favor ingresa la URL de la API', 'warning');
-                    return;
-                }
-
-                const validation = Utils.isValidApiUrl(url);
-                if (!validation.valid) {
-                    Toast.show(validation.error, 'error');
-                    DOM.connectionStatus.className = 'status disconnected';
-                    DOM.connectionStatus.innerHTML = '<i class="fas fa-times-circle" aria-hidden="true"></i> URL inválida';
-                    return;
-                }
-
-                DOM.connectionStatus.className = 'status checking';
-                DOM.connectionStatus.innerHTML = '<i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Verificando...';
-
                 try {
-                    const response = await Utils.fetchWithTimeout(url + '/health', {
+                    const response = await Utils.fetchWithTimeout(API_URL + '/health', {
                         method: 'GET',
                         headers: { 'ngrok-skip-browser-warning': 'true' }
                     }, 10000);
 
                     if (response.ok) {
                         App.state.isConnected = true;
-                        DOM.connectionStatus.className = 'status connected';
-                        DOM.connectionStatus.innerHTML = '<i class="fas fa-check-circle" aria-hidden="true"></i> Conectado';
-                        // Guardar URL ofuscada (mejora 13)
-                        localStorage.setItem('medvision_api_url', Utils.obfuscateUrl(url));
                         UI.updateSubmitButton();
                         this.startMonitor();
-                        Toast.show('Conectado a la API correctamente', 'success');
+                        Stepper.update(App.state.hasImage ? 2 : 1);
+                        Toast.show('Conectado a la API', 'success');
                     } else {
                         throw new Error('Error de conexión');
                     }
                 } catch (error) {
                     App.state.isConnected = false;
-                    DOM.connectionStatus.className = 'status disconnected';
-                    DOM.connectionStatus.innerHTML = '<i class="fas fa-times-circle" aria-hidden="true"></i> Error de conexión';
                     UI.updateSubmitButton();
                     Toast.show('No se pudo conectar con la API', 'error');
                 }
@@ -562,16 +2361,13 @@
                 this.checkInterval = setInterval(async () => {
                     if (App.state.isConnected) {
                         try {
-                            const url = DOM.apiUrlInput.value.trim().replace(/\/$/, '');
-                            const response = await Utils.fetchWithTimeout(url + '/health', {
+                            const response = await Utils.fetchWithTimeout(API_URL + '/health', {
                                 method: 'GET',
                                 headers: { 'ngrok-skip-browser-warning': 'true' }
                             }, 5000);
                             if (!response.ok) throw new Error();
                         } catch {
                             App.state.isConnected = false;
-                            DOM.connectionStatus.className = 'status disconnected';
-                            DOM.connectionStatus.innerHTML = '<i class="fas fa-times-circle" aria-hidden="true"></i> Desconectado';
                             UI.updateSubmitButton();
                             Toast.show('Conexión perdida con la API', 'warning');
                         }
@@ -660,6 +2456,8 @@
                     App.state.hasImage = true;
                     App.state.currentFile = file;
                     UI.updateSubmitButton();
+                    // Actualizar stepper
+                    Stepper.update(2);
                     Toast.show('Imagen cargada correctamente', 'success');
                 };
                 reader.readAsDataURL(file);
@@ -672,6 +2470,8 @@
                 App.state.hasImage = false;
                 App.state.currentFile = null;
                 UI.updateSubmitButton();
+                // Actualizar stepper
+                Stepper.update(1);
             }
         };
 
@@ -754,7 +2554,7 @@
                     id: Date.now(),
                     date: new Date().toISOString(),
                     modalidad: document.getElementById('modalidad').value,
-                    thumbnail: DOM.previewImage.src.substring(0, 500), // Limitar tamaño
+                    thumbnail: '', // No guardar imagen para evitar errores
                     clasificacion: data.clasificacion_siglip,
                     informe: data.informe_medgemma
                 };
@@ -785,7 +2585,7 @@
 
                 let html = items.map(item => `
                     <div class="history-item" data-id="${item.id}">
-                        <img class="history-thumb" src="${Utils.sanitizeHTML(item.thumbnail)}" alt="Miniatura">
+                        <div class="history-thumb-icon"><i class="fas fa-x-ray"></i></div>
                         <div class="history-info">
                             <h5>${Utils.sanitizeHTML(item.modalidad.replace(/_/g, ' '))}</h5>
                             <p>${Utils.formatDate(new Date(item.date))}</p>
@@ -865,6 +2665,8 @@
                 DOM.submitBtn.disabled = true;
                 UI.hideResults();
                 RateLimiter.recordRequest();
+                // Stepper: analizando
+                Stepper.update(2);
 
                 // Progreso simulado con etapas (mejora 6)
                 const stages = [
@@ -884,7 +2686,7 @@
                 }, 3000);
 
                 try {
-                    const url = DOM.apiUrlInput.value.trim().replace(/\/$/, '');
+                    const url = API_URL;
                     const formData = new FormData();
                     formData.append('imagen', DOM.fileInput.files[0]);
                     formData.append('modalidad', document.getElementById('modalidad').value);
@@ -912,11 +2714,16 @@
                     setTimeout(() => {
                         this.displayResults(data);
                         History.add(data);
+                        // Stepper: completado
+                        Stepper.update(3);
+                        updateAnalysisCounter();
                         Toast.show('Análisis completado exitosamente', 'success');
                     }, 500);
 
                 } catch (error) {
                     Toast.show('Error: ' + error.message, 'error', 6000);
+                    // Volver al paso 2 (listo para analizar)
+                    Stepper.update(2);
                 } finally {
                     clearInterval(progressInterval);
                     setTimeout(() => UI.hideLoading(), 600);
@@ -968,7 +2775,7 @@
                 if (!App.state.currentResults) return '';
 
                 let text = '═══════════════════════════════════════\n';
-                text += '       MEDVISION - INFORME DE ANÁLISIS\n';
+                text += '       EVAVISION - INFORME DE ANÁLISIS\n';
                 text += '═══════════════════════════════════════\n\n';
                 text += 'Fecha: ' + Utils.formatDate(new Date()) + '\n';
                 text += 'Modalidad: ' + document.getElementById('modalidad').value.replace(/_/g, ' ') + '\n\n';
@@ -1009,7 +2816,7 @@
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = 'medvision_informe_' + Date.now() + '.txt';
+                a.download = 'evavision_informe_' + Date.now() + '.txt';
                 a.click();
                 URL.revokeObjectURL(url);
                 Toast.show('Informe TXT descargado', 'success');
@@ -1027,7 +2834,7 @@
                     <!DOCTYPE html>
                     <html>
                     <head>
-                        <title>MedVision - Informe de Análisis</title>
+                        <title>EvaVision - Informe de Análisis</title>
                         <style>
                             body { font-family: Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
                             h1 { color: #0ea5e9; border-bottom: 2px solid #0ea5e9; padding-bottom: 10px; }
@@ -1040,7 +2847,7 @@
                         </style>
                     </head>
                     <body>
-                        <h1>🏥 MedVision - Informe de Análisis</h1>
+                        <h1>🏥 EvaVision - Informe de Análisis</h1>
                         <div class="meta">
                             <p><strong>Fecha:</strong> ${Utils.formatDate(new Date())}</p>
                             <p><strong>Modalidad:</strong> ${document.getElementById('modalidad').value.replace(/_/g, ' ')}</p>
@@ -1082,7 +2889,7 @@
                     });
 
                     const link = document.createElement('a');
-                    link.download = 'medvision_resultados_' + Date.now() + '.png';
+                    link.download = 'evavision_resultados_' + Date.now() + '.png';
                     link.href = canvas.toDataURL('image/png');
                     link.click();
                     Toast.show('Imagen descargada', 'success');
@@ -1127,32 +2934,46 @@
         };
 
         // ==========================================
-        // MÓDULO: Traducción del Informe
+        // MÓDULO: Traducción (usando API gratuita)
         // ==========================================
         const Translate = {
             originalInforme: null,
             currentLang: null,
 
             async translateText(text, targetLang) {
-                const url = DOM.apiUrlInput.value.trim().replace(/\/$/, '');
+                // Dividir texto en chunks de 450 caracteres (límite MyMemory es 500)
+                const chunks = [];
+                const maxLen = 450;
 
-                // Enviar al backend para traducir
-                const formData = new FormData();
-                formData.append('texto', text);
-                formData.append('idioma_destino', targetLang);
-
-                const response = await Utils.fetchWithTimeout(url + '/traducir', {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'ngrok-skip-browser-warning': 'true' }
-                }, 180000);
-
-                if (!response.ok) {
-                    throw new Error('Error al traducir');
+                for (let i = 0; i < text.length; i += maxLen) {
+                    chunks.push(text.substring(i, i + maxLen));
                 }
 
-                const data = await response.json();
-                return data.texto_traducido || data.translated_text || text;
+                const translatedChunks = [];
+
+                for (const chunk of chunks) {
+                    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(chunk)}&langpair=en|${targetLang}`;
+
+                    const response = await fetch(url);
+
+                    if (!response.ok) {
+                        throw new Error('Error de conexión');
+                    }
+
+                    const data = await response.json();
+
+                    if (data.responseStatus === 200) {
+                        translatedChunks.push(data.responseData.translatedText);
+                    } else {
+                        // Si falla un chunk, usar el original
+                        translatedChunks.push(chunk);
+                    }
+
+                    // Pequeña pausa para no sobrecargar la API
+                    await new Promise(r => setTimeout(r, 100));
+                }
+
+                return translatedChunks.join('');
             },
 
             async translate() {
@@ -1162,11 +2983,9 @@
                 const targetLang = langSelect.value;
 
                 if (!targetLang) {
-                    // Restaurar original
                     if (this.originalInforme) {
                         DOM.informeResults.innerHTML = '<p>' + Utils.formatMarkdownSafe(this.originalInforme) + '</p>';
                         translateStatus.textContent = '';
-                        translateStatus.className = 'translate-status';
                         this.currentLang = null;
                     }
                     return;
@@ -1177,34 +2996,35 @@
                     return;
                 }
 
-                // Guardar original si no existe
                 if (!this.originalInforme) {
                     this.originalInforme = App.state.currentResults.informe_medgemma;
                 }
 
-                // Mostrar estado de carga
                 translateBtn.disabled = true;
-                translateBtn.classList.add('loading');
                 translateStatus.textContent = 'Traduciendo...';
-                translateStatus.className = 'translate-status';
 
                 try {
                     const translatedText = await this.translateText(this.originalInforme, targetLang);
-
                     DOM.informeResults.innerHTML = '<p>' + Utils.formatMarkdownSafe(translatedText) + '</p>';
+
+                    // Mostrar también en el tab de traducción
+                    const translatedContent = document.getElementById('translatedContent');
+                    const translatedTextEl = document.getElementById('translatedText');
+                    if (translatedContent && translatedTextEl) {
+                        translatedTextEl.innerHTML = '<p>' + Utils.formatMarkdownSafe(translatedText) + '</p>';
+                        translatedContent.style.display = 'block';
+                    }
+
                     this.currentLang = targetLang;
-
-                    translateStatus.textContent = '✓ Traducido a ' + Utils.getLanguageName(targetLang);
+                    translateStatus.textContent = '✓ Traducido';
                     translateStatus.className = 'translate-status success';
-                    Toast.show('Informe traducido correctamente', 'success');
-
+                    Toast.show('Informe traducido', 'success');
                 } catch (error) {
-                    translateStatus.textContent = '✗ Error al traducir';
+                    translateStatus.textContent = '✗ Error';
                     translateStatus.className = 'translate-status error';
-                    Toast.show('Error al traducir: ' + error.message, 'error');
+                    Toast.show('Error al traducir', 'error');
                 } finally {
                     translateBtn.disabled = false;
-                    translateBtn.classList.remove('loading');
                 }
             },
 
@@ -1213,46 +3033,277 @@
                 this.currentLang = null;
                 const langSelect = document.getElementById('translateLang');
                 const translateStatus = document.getElementById('translateStatus');
+                const translatedContent = document.getElementById('translatedContent');
                 if (langSelect) langSelect.value = '';
-                if (translateStatus) {
-                    translateStatus.textContent = '';
-                    translateStatus.className = 'translate-status';
-                }
+                if (translateStatus) translateStatus.textContent = '';
+                if (translatedContent) translatedContent.style.display = 'none';
             },
 
             init() {
                 const langSelect = document.getElementById('translateLang');
                 const translateBtn = document.getElementById('translateBtn');
 
-                // Habilitar botón cuando hay selección
                 langSelect.addEventListener('change', () => {
                     translateBtn.disabled = !langSelect.value || !App.state.currentResults;
                 });
 
-                // Traducir al hacer clic
                 translateBtn.addEventListener('click', () => this.translate());
             }
         };
 
         // ==========================================
+        // ==========================================
+        // MÓDULO: Stepper de Progreso
+        // ==========================================
+        const Stepper = {
+            update(step) {
+                const steps = ['step1', 'step2', 'step3'];
+                steps.forEach((s, index) => {
+                    const el = document.getElementById(s);
+                    if (!el) return;
+                    el.classList.remove('active', 'completed');
+                    if (index < step - 1) {
+                        el.classList.add('completed');
+                    } else if (index === step - 1) {
+                        el.classList.add('active');
+                    }
+                });
+            },
+
+            reset() {
+                this.update(1);
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: TABS (Sistema de pestañas)
+        // ==========================================
+        const Tabs = {
+            init() {
+                const tabs = document.querySelectorAll('.results-tab');
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => this.switchTab(tab.dataset.tab));
+                });
+            },
+
+            switchTab(tabId) {
+                // Actualizar tabs activos
+                document.querySelectorAll('.results-tab').forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                });
+                const activeTab = document.querySelector(`[data-tab="${tabId}"]`);
+                if (activeTab) {
+                    activeTab.classList.add('active');
+                    activeTab.setAttribute('aria-selected', 'true');
+                }
+
+                // Mostrar contenido correspondiente
+                document.querySelectorAll('.results-tab-content').forEach(c => {
+                    c.classList.remove('active');
+                });
+                const tabContent = document.getElementById(`tab-${tabId}`);
+                if (tabContent) {
+                    tabContent.classList.add('active');
+                }
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: SKELETON LOADING
+        // ==========================================
+        const Skeleton = {
+            show() {
+                const skelClasif = document.getElementById('skeletonClasificacion');
+                const skelInforme = document.getElementById('skeletonInforme');
+                if (skelClasif) skelClasif.style.display = 'block';
+                if (skelInforme) skelInforme.style.display = 'block';
+            },
+
+            hide() {
+                const skelClasif = document.getElementById('skeletonClasificacion');
+                const skelInforme = document.getElementById('skeletonInforme');
+                if (skelClasif) skelClasif.style.display = 'none';
+                if (skelInforme) skelInforme.style.display = 'none';
+            }
+        };
+
+        // ==========================================
+        // MÓDULO: FAB (Floating Action Button)
+        // ==========================================
+        function toggleFab() {
+            const fab = document.getElementById('fabContainer');
+            if (fab) fab.classList.toggle('open');
+        }
+
+        function triggerNewAnalysis() {
+            toggleFab();
+            if (App.state.hasResults) {
+                Confirm.show(() => {
+                    FileHandler.reset();
+                    UI.hideResults();
+                    Translate.reset();
+                    Stepper.update(1);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    Toast.show('Listo para un nuevo análisis', 'info');
+                });
+            } else {
+                FileHandler.reset();
+                Stepper.update(1);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function toggleHistory() {
+            DOM.historyPanel.classList.toggle('show');
+            const isOpen = DOM.historyPanel.classList.contains('show');
+            DOM.historyToggle.querySelector('span').textContent = isOpen ? 'Ocultar Historial' : 'Ver Historial de Análisis';
+        }
+
+        // ==========================================
+        // MÓDULO: Perfil de Usuario
+        // ==========================================
+        function toggleProfileMenu() {
+            document.getElementById('userProfileContainer').classList.toggle('open');
+        }
+
+        function showProfileInfo() {
+            toggleProfileMenu();
+            const username = localStorage.getItem('evavision_username') || 'usuario';
+            const fullname = localStorage.getItem('evavision_user') || 'Usuario';
+            const analysisCount = History.load().length;
+
+            Toast.show(`Perfil: @${username} | Análisis realizados: ${analysisCount}`, 'info', 4000);
+        }
+
+        function showAnalysisHistory() {
+            toggleProfileMenu();
+            DOM.historyPanel.classList.add('show');
+            DOM.historyToggle.querySelector('span').textContent = 'Ocultar Historial';
+        }
+
+        function logout() {
+            toggleProfileMenu();
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+
+        // Cerrar menú de perfil al hacer clic fuera
+        document.addEventListener('click', (e) => {
+            const container = document.getElementById('userProfileContainer');
+            if (container && !container.contains(e.target) && container.classList.contains('open')) {
+                container.classList.remove('open');
+            }
+        });
+
+        // ==========================================
+        // MÓDULO: Atajos de Teclado
+        // ==========================================
+        function showShortcuts() {
+            document.getElementById('shortcutsModal').classList.add('show');
+            const fab = document.getElementById('fabContainer');
+            if (fab && fab.classList.contains('open')) {
+                toggleFab();
+            }
+        }
+
+        function hideShortcuts() {
+            document.getElementById('shortcutsModal').classList.remove('show');
+        }
+
+        function showKeyboardHint(message) {
+            const hint = document.getElementById('keyboardHint');
+            hint.textContent = message;
+            hint.classList.add('show');
+            setTimeout(() => hint.classList.remove('show'), 2000);
+        }
+
+        function initKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                // Ignorar si está escribiendo en un input
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+                    // Solo permitir Escape en inputs
+                    if (e.key !== 'Escape') return;
+                }
+
+                // ? - Mostrar atajos
+                if (e.key === '?' && !e.ctrlKey) {
+                    e.preventDefault();
+                    showShortcuts();
+                    return;
+                }
+
+                // Escape - Cerrar modales
+                if (e.key === 'Escape') {
+                    hideShortcuts();
+                    const fab = document.getElementById('fabContainer');
+                    if (fab && fab.classList.contains('open')) {
+                        toggleFab();
+                    }
+                    return;
+                }
+
+                // Ctrl + combinaciones
+                if (e.ctrlKey) {
+                    switch(e.key.toLowerCase()) {
+                        case 'n': // Nuevo análisis
+                            e.preventDefault();
+                            triggerNewAnalysis();
+                            showKeyboardHint('Nuevo análisis');
+                            break;
+                        case 'h': // Historial
+                            e.preventDefault();
+                            toggleHistory();
+                            showKeyboardHint('Historial ' + (DOM.historyPanel.classList.contains('show') ? 'abierto' : 'cerrado'));
+                            break;
+                        case 'a': // Analizar
+                            e.preventDefault();
+                            if (!DOM.submitBtn.disabled) {
+                                Analysis.submit();
+                                showKeyboardHint('Iniciando análisis...');
+                            }
+                            break;
+                        case 'p': // PDF
+                            e.preventDefault();
+                            if (App.state.currentResults) {
+                                Export.downloadPdf();
+                                showKeyboardHint('Exportando PDF...');
+                            }
+                            break;
+                        case 's': // Guardar TXT
+                            e.preventDefault();
+                            if (App.state.currentResults) {
+                                Export.downloadTxt();
+                                showKeyboardHint('Exportando TXT...');
+                            }
+                            break;
+                    }
+                }
+            });
+        }
+
+        // ==========================================
+        // MÓDULO: Contador de Análisis
+        // ==========================================
+        function updateAnalysisCounter() {
+            const history = History.load();
+            document.getElementById('totalAnalysis').textContent = history.length;
+        }
+
+        // ==========================================
         // INICIALIZACIÓN
         // ==========================================
         function init() {
-            // Cargar URL guardada (deofuscada)
-            const savedUrl = localStorage.getItem('medvision_api_url');
-            if (savedUrl) {
-                DOM.apiUrlInput.value = Utils.deobfuscateUrl(savedUrl);
-                Connection.test();
-            }
+            // Cargar datos de usuario
+            const username = localStorage.getItem('evavision_username') || 'usuario';
+            const fullname = localStorage.getItem('evavision_user') || 'Usuario';
 
-            // Event Listeners
-            DOM.connectBtn.addEventListener('click', () => Connection.test());
-            DOM.apiUrlInput.addEventListener('keypress', e => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    Connection.test();
-                }
-            });
+            document.getElementById('userName').textContent = '@' + username;
+            document.getElementById('profileUsername').textContent = '@' + username;
+            document.getElementById('profileFullname').textContent = fullname;
+
+            // Auto-conectar con la API
+            Connection.test();
 
             // Drag & Drop
             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => {
@@ -1311,6 +3362,20 @@
             Export.init();
             Confirm.init();
             Translate.init();
+            Tabs.init();
+
+            // Inicializar nuevas funcionalidades
+            initKeyboardShortcuts();
+            updateAnalysisCounter();
+            Stepper.update(1);
+
+
+            // Cerrar modal de atajos al hacer clic fuera
+            document.getElementById('shortcutsModal').addEventListener('click', (e) => {
+                if (e.target.id === 'shortcutsModal') {
+                    hideShortcuts();
+                }
+            });
         }
 
         // Ejecutar cuando el DOM esté listo
