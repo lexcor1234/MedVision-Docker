@@ -1029,7 +1029,7 @@
 
         // API URL helper
         function getApiUrl() {
-            return 'https://developed-mining-commonwealth-tucson.trycloudflare.com';
+            return 'https://fifty-turtles-turn.loca.lt';
         }
 
         // Set loading state
@@ -1064,7 +1064,10 @@
             try {
                 const res = await fetch(apiUrl + '/login', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'bypass-tunnel-reminder': 'true'
+                    }
                 });
                 const data = await res.json();
 
@@ -1111,7 +1114,10 @@
             try {
                 const res = await fetch(apiUrl + '/register', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    headers: {
+                        'bypass-tunnel-reminder': 'true'
+                    }
                 });
                 const data = await res.json();
 

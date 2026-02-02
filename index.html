@@ -8,7 +8,7 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta name="referrer" content="strict-origin-when-cross-origin">
     <!-- CSP mejorado (mejora 11) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://html2canvas.hertzen.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob:; connect-src 'self' https://*.ngrok-free.dev https://*.ngrok.io https://*.trycloudflare.com https://api.mymemory.translated.net http://localhost:* http://127.0.0.1:* http://10.8.0.7:* http://10.8.0.8:* http://10.8.0.6:*;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://html2canvas.hertzen.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob:; connect-src 'self' https://*.loca.lt https://*.ngrok-free.dev https://*.ngrok.io https://*.trycloudflare.com https://api.mymemory.translated.net http://localhost:* http://127.0.0.1:* http://10.8.0.7:* http://10.8.0.8:* http://10.8.0.6:*;">
 
     <title>EvaVision - Análisis de Imágenes Médicas con IA</title>
 
@@ -2141,7 +2141,7 @@
         // MÓDULO: Elementos DOM
         // ==========================================
         // URL de la API (fija)
-        const API_URL = 'https://developed-mining-commonwealth-tucson.trycloudflare.com';
+        const API_URL = 'https://fifty-turtles-turn.loca.lt';
 
         const DOM = {
             dropZone: document.getElementById('dropZone'),
@@ -2208,7 +2208,7 @@
                 }
             },
             // En la función fetchWithTimeout, aumenta el tiempo
-            async fetchWithTimeout(url, options = {}, timeout = 180000) {  // 180 segundos
+            async fetchWithTimeout(url, options = {}, timeout = 600000) {  // 180 segundos
                 const controller = new AbortController();
                 const id = setTimeout(() => controller.abort(), timeout);
                 try {
@@ -2337,7 +2337,10 @@
                 try {
                     const response = await Utils.fetchWithTimeout(API_URL + '/health', {
                         method: 'GET',
-                        headers: { 'ngrok-skip-browser-warning': 'true' }
+                        headers: {
+                            'ngrok-skip-browser-warning': 'true',
+                            'bypass-tunnel-reminder': 'true'
+                        }
                     }, 10000);
 
                     if (response.ok) {
@@ -2363,7 +2366,10 @@
                         try {
                             const response = await Utils.fetchWithTimeout(API_URL + '/health', {
                                 method: 'GET',
-                                headers: { 'ngrok-skip-browser-warning': 'true' }
+                                headers: {
+                                    'ngrok-skip-browser-warning': 'true',
+                                    'bypass-tunnel-reminder': 'true'
+                                }
                             }, 5000);
                             if (!response.ok) throw new Error();
                         } catch {
@@ -2692,29 +2698,96 @@
                     formData.append('modalidad', document.getElementById('modalidad').value);
                     formData.append('contexto_clinico', document.getElementById('contexto').value);
 
-                    const response = await Utils.fetchWithTimeout(url + '/completo', {
+                    // Paso 1: Enviar imagen y obtener task_id
+                    UI.updateProgress(10, 'Enviando imagen al servidor...');
+                    const initResponse = await fetch(url + '/analizar', {
                         method: 'POST',
                         body: formData,
-                        headers: { 'ngrok-skip-browser-warning': 'true' }
-                    }, 120000);
+                        headers: {
+                            'ngrok-skip-browser-warning': 'true',
+                            'bypass-tunnel-reminder': 'true'
+                        }
+                    });
 
-                    if (!response.ok) {
-                        let errorMsg = 'Error en el servidor';
-                        try {
-                            const error = await response.json();
-                            errorMsg = error.detail || errorMsg;
-                        } catch {}
-                        throw new Error(errorMsg);
+                    if (!initResponse.ok) {
+                        throw new Error('Error al enviar imagen');
                     }
 
-                    const data = await response.json();
+                    const initData = await initResponse.json();
+                    const taskId = initData.task_id;
+
+                    if (!taskId) {
+                        throw new Error('No se recibió ID de tarea');
+                    }
+
+                    UI.updateProgress(20, 'Imagen recibida. Analizando con MedGemma 27B...');
+
+                    // Paso 2: Polling cada 5 segundos
+                    const pollResultado = () => {
+                        return new Promise((resolve, reject) => {
+                            let intentos = 0;
+                            const maxIntentos = 60; // 5 minutos máximo
+
+                            const poll = async () => {
+                                intentos++;
+                                try {
+                                    const resultResponse = await fetch(url + '/resultado/' + taskId, {
+                                        headers: {
+                                            'ngrok-skip-browser-warning': 'true',
+                                            'bypass-tunnel-reminder': 'true'
+                                        }
+                                    });
+
+                                    const resultData = await resultResponse.json();
+
+                                    if (resultData.status === 'completed') {
+                                        resolve(resultData.resultado);
+                                    } else if (resultData.status === 'error') {
+                                        reject(new Error(resultData.resultado || 'Error en análisis'));
+                                    } else if (intentos >= maxIntentos) {
+                                        reject(new Error('Tiempo máximo de espera excedido'));
+                                    } else {
+                                        // Actualizar progreso visual
+                                        const progreso = Math.min(90, 20 + intentos * 2);
+                                        const mensajes = [
+                                            'Procesando imagen médica...',
+                                            'Analizando estructuras anatómicas...',
+                                            'Identificando hallazgos...',
+                                            'Generando informe detallado...',
+                                            'Casi listo...'
+                                        ];
+                                        const msgIndex = Math.min(Math.floor(intentos / 6), mensajes.length - 1);
+                                        UI.updateProgress(progreso, mensajes[msgIndex]);
+
+                                        setTimeout(poll, 5000);
+                                    }
+                                } catch (err) {
+                                    if (intentos >= maxIntentos) {
+                                        reject(err);
+                                    } else {
+                                        setTimeout(poll, 5000);
+                                    }
+                                }
+                            };
+
+                            poll();
+                        });
+                    };
+
+                    const resultado = await pollResultado();
+
+                    // Crear objeto de datos compatible
+                    const data = {
+                        informe_medgemma: resultado,
+                        clasificacion_siglip: []
+                    };
+
                     UI.updateProgress(100, '¡Análisis completado!');
                     App.state.currentResults = data;
 
                     setTimeout(() => {
                         this.displayResults(data);
                         History.add(data);
-                        // Stepper: completado
                         Stepper.update(3);
                         updateAnalysisCounter();
                         Toast.show('Análisis completado exitosamente', 'success');
@@ -2722,7 +2795,6 @@
 
                 } catch (error) {
                     Toast.show('Error: ' + error.message, 'error', 6000);
-                    // Volver al paso 2 (listo para analizar)
                     Stepper.update(2);
                 } finally {
                     clearInterval(progressInterval);

@@ -50,6 +50,8 @@ self.addEventListener('fetch', event => {
 
     // Skip API calls (they should always go to network)
     if (url.hostname.includes('ngrok') ||
+        url.hostname.includes('loca.lt') ||
+        url.hostname.includes('trycloudflare') ||
         url.hostname === 'localhost' ||
         url.hostname === '127.0.0.1') {
         return;
