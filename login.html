@@ -781,7 +781,7 @@
     <div class="glow-orb glow-orb-3"></div>
 
     <!-- Botón para regresar -->
-    <a href="index.html" class="back-button">
+    <a href="inicio.html" class="back-button">
         <i class="fas fa-arrow-left"></i>
         <span>Volver</span>
     </a>
@@ -1075,7 +1075,7 @@
                     localStorage.setItem('evavision_user', data.nombre);
                     localStorage.setItem('evavision_username', document.getElementById('loginUser').value);
                     localStorage.setItem('evavision_api_url', btoa(apiUrl));
-                    window.location.href = 'app.html';
+                    window.location.href = 'index.html';
                 } else {
                     showError(data.detail || 'Usuario o contraseña incorrectos');
                 }
@@ -1141,7 +1141,7 @@
 
         // Check if already logged in
         if (localStorage.getItem('evavision_user')) {
-            window.location.href = 'app.html';
+            window.location.href = 'index.html';
         }
 
     </script>
